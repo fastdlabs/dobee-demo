@@ -8,11 +8,14 @@ FastD `dobee` 的官方 Demo 包，包含：
 - SSE / AI Mock Stream 示例
 - RequestId Middleware 示例
 - 构造器注入 / Resolver 示例
-- Cache（file adapter）示例
-- Database（SQLite / MedooDB）示例
+- Cache（file adapter）/ Database（SQLite / MedooDB）示例
+- 数据库事务示例
 - Swoole Server / 自定义 Listener 示例
-- Console Command 示例
-- Process / Signal 示例
+- Swoole 协程并发示例（`/parallel-demo`）
+- HTTP 请求 / Cookie / 上传 / 下载示例
+- 自定义事件 / 响应状态 / 异常处理示例
+- CORS / OPTIONS 示例
+- Console Command / Process / Signal 示例
 - 对应静态演示页面 `/demo/*.html`
 
 Dobee 骨架通过 `require-dev` 或手动安装引入本包；未安装时不会注册任何 demo 路由或中间件。
@@ -53,6 +56,17 @@ if (class_exists(\FastD\Demo\DemoServiceProvider::class)) {
 | `/cache-demo` | 缓存读写与命中计数 |
 | `/db-demo` | SQLite 写入与访问计数 |
 | `/swoole-demo` | Swoole/CGI 运行时信息 |
+| `/parallel-demo` | Swoole 协程并发 / CGI 串行 |
+| `/request-demo` | 请求 query/header/cookie/body |
+| `/cookie-demo` | Cookie 读写 |
+| `/upload-demo` | 文件上传 |
+| `/download-demo` | 文件下载 / 流式响应 |
+| `/event-demo` | 自定义事件分发 |
+| `/response-demo` | 响应状态 / 重定向 |
+| `/error-demo` | 404 / 500 异常处理 |
+| `/config-demo` | 配置 / 运行时信息 |
+| `/cors-demo` | CORS / OPTIONS 预检 |
+| `/db-transaction-demo` | 数据库事务回滚 |
 | `/demo/index.html` | Demo 入口页 |
 
 命令行与进程示例：
@@ -62,6 +76,11 @@ php bin/console demo:hello
 # Hello from fastd/dobee-demo command
 php bin/process
 ```
+
+完整的 curl、页面和运行时差异说明见：
+
+- [Demo Scenarios](docs/scenarios.md)
+
 
 
 ## 自动注册 Service
