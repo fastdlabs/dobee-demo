@@ -63,6 +63,7 @@ final class DemoServiceProvider implements ServiceProviderInterface
 
         $process = (array) $config->parsed->get('process', []);
         $process['worker']['demo'] = DemoWorker::class;
+        $process['worker']['demo-2'] = DemoWorker::class;
         $process['listener'][] = DemoSignalListener::class;
         $config->parsed->set('process', $process);
     }

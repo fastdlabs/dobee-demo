@@ -19,6 +19,7 @@ class ServiceRegistrationTest extends TestCase
 
         $this->assertContains(DemoCommand::class, $commands);
         $this->assertSame(DemoWorker::class, $process['worker']['demo'] ?? null);
+        $this->assertSame(DemoWorker::class, $process['worker']['demo-2'] ?? null);
         $this->assertContains(DemoSignalListener::class, $process['listener']);
     }
 
