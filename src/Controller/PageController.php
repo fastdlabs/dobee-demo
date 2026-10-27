@@ -15,7 +15,7 @@ use Psr\Http\Server\RequestHandlerInterface;
  */
 final class PageController implements MiddlewareInterface
 {
-    private const PAGES = ['index.html', 'sse.html', 'ai.html', 'di.html', 'middleware.html', 'cache.html', 'database.html', 'swoole.html'];
+    private const PAGES = ['index.html', 'sse.html', 'ai.html', 'di.html', 'middleware.html', 'cache.html', 'database.html', 'swoole.html', 'parallel.html'];
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
