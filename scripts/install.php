@@ -88,17 +88,17 @@ if (is_file($swooleFile)) {
         $content .= "    \$servers['stats'] = [\n";
         $content .= "        'host' => '127.0.0.1',\n";
         $content .= "        'port' => 9528,\n";
-        $content .= "        'handler' => \\FastD\\Swoole\\Listener\\Server\\StatsListener::class,\n";
+        $content .= "        'listener' => \\FastD\\Swoole\\Listener\\Server\\StatsListener::class,\n";
         $content .= "    ];\n";
         $content .= "    \$servers['demo'] = [\n";
         $content .= "        'host' => '127.0.0.1',\n";
         $content .= "        'port' => 9529,\n";
-        $content .= "        'handler' => \\FastD\\Demo\\Listener\\Server\\DemoServerListener::class,\n";
+        $content .= "        'listener' => \\FastD\\Demo\\Listener\\Server\\DemoServerListener::class,\n";
         $content .= "    ];\n";
         $content .= "}\n\n";
         $content .= "return [\n";
         $content .= "    'servers' => \$servers,\n";
-        $content .= "    'events' => " . $export((array) ($config['events'] ?? []), 1) . ",\n";
+        $content .= "    'listeners' => " . $export((array) ($config['listeners'] ?? []), 1) . ",\n";
         $content .= "    'options' => " . $export((array) ($config['options'] ?? []), 1) . ",\n";
         $content .= "];\n";
 
