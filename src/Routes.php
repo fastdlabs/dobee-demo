@@ -12,6 +12,7 @@ use FastD\Demo\Controller\UploadDemoController;
 use FastD\Demo\Controller\InjectionDemoController;
 use FastD\Demo\Controller\MiddlewareDemoController;
 use FastD\Demo\Controller\CookieDemoController;
+use FastD\Demo\Controller\ErrorDemoController;
 use FastD\Demo\Controller\EventDemoController;
 use FastD\Demo\Controller\PageController;
 use FastD\Demo\Controller\ParallelDemoController;
@@ -19,6 +20,7 @@ use FastD\Demo\Controller\RequestDemoController;
 use FastD\Demo\Controller\ResponseDemoController;
 use FastD\Demo\Controller\SessionController;
 use FastD\Demo\Controller\SseStreamController;
+use FastD\Demo\Middleware\ExceptionDemoMiddleware;
 use FastD\Demo\Middleware\InjectionDemoMiddleware;
 use FastD\Demo\Middleware\RequestIdMiddleware;
 
@@ -39,6 +41,7 @@ final class Routes
             ['GET', '/cookie-demo', CookieDemoController::class],
             ['GET', '/event-demo', EventDemoController::class],
             ['GET', '/response-demo', ResponseDemoController::class],
+            ['GET', '/error-demo', ErrorDemoController::class, [ExceptionDemoMiddleware::class]],
             ['POST', '/upload-demo', UploadDemoController::class],
             ['GET', '/di-demo', InjectionDemoController::class, [InjectionDemoMiddleware::class]],
             ['GET', '/middleware-demo', MiddlewareDemoController::class, [RequestIdMiddleware::class]],
