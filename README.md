@@ -44,6 +44,34 @@ if (class_exists(\FastD\Demo\DemoServiceProvider::class)) {
 
 路由由 `DemoServiceProvider` 自动注册，宿主不需要修改 `routes/web.php`。
 
+## 使用步骤
+
+1. 在 dobee 项目中安装：
+
+```bash
+composer require --dev fastd/dobee-demo
+```
+
+2. 通过 CGI 启动 Demo 页面：
+
+```bash
+php -S 127.0.0.1:8099 -t web
+```
+
+3. 打开首页：
+
+```text
+http://127.0.0.1:8099/demo/index.html
+```
+
+4. 如需测试 Swoole 模式，再启动：
+
+```bash
+php bin/server start
+```
+
+首页左侧点击 Demo 会在中间 iframe 展示，右侧切换目标 API 运行时；页面右下角显示页面域名、实际 API 域名和最近请求。
+
 ## 首页预览与运行时切换
 
 建议通过 CGI 打开 Demo 首页：
@@ -153,8 +181,6 @@ php bin/process
 完整的 curl、页面和运行时差异说明见：
 
 - [Demo Scenarios](docs/scenarios.md)
-
-
 
 ## 自动注册 Service
 
