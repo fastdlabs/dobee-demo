@@ -10,6 +10,7 @@ use FastD\Config\FileParser;
 use FastD\Container\ServiceProviderInterface;
 use FastD\Demo\Command\DemoCommand;
 use FastD\Demo\Listener\App\DemoEventListener;
+use FastD\Demo\Listener\App\DemoRequestEventListener;
 use FastD\Demo\Listener\Process\DemoSignalListener;
 use FastD\Demo\Process\DemoWorker;
 use FastD\Demo\Support\InjectionDemoGreeting;
@@ -77,6 +78,7 @@ final class DemoServiceProvider implements ServiceProviderInterface
         }
 
         $container->get('event')->addListener($container->make(DemoEventListener::class));
+        $container->get('event')->addListener($container->make(DemoRequestEventListener::class));
     }
 
     private function registerCoreProviders(Container $container): void
