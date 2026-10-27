@@ -44,20 +44,48 @@ if (class_exists(\FastD\Demo\DemoServiceProvider::class)) {
 
 路由由 `DemoServiceProvider` 自动注册，宿主不需要修改 `routes/web.php`。
 
-## 启动运行时
+## 首页预览与运行时切换
 
-Demo 支持两种运行方式，首页 `/demo/index.html` 右侧可以切换目标运行时并查看启动命令。
+建议通过 CGI 打开 Demo 首页：
 
-### Swoole
+```text
+http://127.0.0.1:8099/demo/index.html
+```
+
+首页布局：
+
+- 左侧：Demo 列表
+- 中间：点击 Demo 后在 iframe 内展示，不跳转页面
+- 右侧：当前运行环境、API 目标、CGI / Swoole 切换和启动说明
+
+### HTML 页面
+
+HTML Demo 页面始终从当前 URL 的 CGI 域名加载，切换运行环境不会切换页面域名。
+
+### API 请求
+
+Demo 页面内的 API 请求按右侧选择切换：
+
+| 选择 | API 域名 |
+|---|---|
+| CGI | 当前页面 URL 域名 |
+| Swoole | `config/swoole.php` 中 `servers.http.host` / `port` |
+
+页面通过 `/demo/runtime.js` 统一处理 fetch、EventSource 和 API 链接的目标地址；跨域请求由 Demo CORS 中间件处理。
+
+### 启动 Swoole
 
 ```bash
 php bin/server start
 ```
 
-访问：
+`config/swoole.php` 默认：
 
-```text
-http://127.0.0.1:9527/demo/index.html
+```php
+'http' => [
+    'host' => '127.0.0.1',
+    'port' => 9527,
+],
 ```
 
 停止：
@@ -66,16 +94,10 @@ http://127.0.0.1:9527/demo/index.html
 php bin/server stop
 ```
 
-### CGI / FastCGI
+### 启动 CGI
 
 ```bash
 php -S 127.0.0.1:8099 -t web
-```
-
-访问：
-
-```text
-http://127.0.0.1:8099/demo/index.html
 ```
 
 ### 行为差异
@@ -85,9 +107,7 @@ http://127.0.0.1:8099/demo/index.html
 | 执行模型 | 请求级进程 | 常驻 Worker |
 | 协程上下文 | 无 | 有 |
 | `/parallel-demo` | 串行 | 并发 |
-| 启动方式 | `php -S ...` | `php bin/server start` |
-
-首页右侧的切换只改变 Demo 链接的目标端口，不会切换当前服务器；请先启动对应服务。
+| API 域名来源 | 当前 URL | `config/swoole.php` |
 
 ## 路由
 

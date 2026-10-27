@@ -12,6 +12,7 @@ use FastD\Demo\Command\DemoCommand;
 use FastD\Demo\Listener\App\DemoEventListener;
 use FastD\Demo\Listener\App\DemoRequestEventListener;
 use FastD\Demo\Listener\Process\DemoSignalListener;
+use FastD\Demo\Middleware\DemoCorsMiddleware;
 use FastD\Demo\Process\DemoWorker;
 use FastD\Demo\Support\InjectionDemoGreeting;
 use FastD\MedooDB\ServiceProvider\DatabaseServiceProvider;
@@ -112,8 +113,33 @@ final class DemoServiceProvider implements ServiceProviderInterface
             return;
         }
 
+        $optionPaths = [];
+
         foreach (Routes::all() as $route) {
+            if (($route[0] ?? 'GET') === 'OPTIONS') {
+                $optionPaths[$route[1]] = true;
+            }
+        }
+
+        foreach (Routes::all() as $route) {
+            $middleware = $route[3] ?? [];
+            $middleware[] = DemoCorsMiddleware::class;
+            $route[3] = array_values(array_unique($middleware));
+
             $matcher->routeCollection->addRoute(...$route);
+
+            $method = $route[0] ?? 'GET';
+            $path = $route[1];
+
+            if ($method !== 'OPTIONS' && !isset($optionPaths[$path])) {
+                $optionPaths[$path] = true;
+                $matcher->routeCollection->addRoute(
+                    'OPTIONS',
+                    $path,
+                    $route[2],
+                    [DemoCorsMiddleware::class],
+                );
+            }
         }
     }
 }

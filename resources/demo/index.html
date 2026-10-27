@@ -6,110 +6,153 @@
 <title>FastD Demo</title>
 <style>
 *{box-sizing:border-box}
-body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"PingFang SC",sans-serif;background:#0f172a;color:#e5e7eb;padding:32px}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"PingFang SC",sans-serif;background:#0f172a;color:#e5e7eb;padding:24px}
 a{color:#38bdf8;text-decoration:none}
-h1{margin-top:0}
-.layout{display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:28px;align-items:start}
-.demo-list{background:#111827;border:1px solid #1f2937;border-radius:12px;padding:22px 24px}
-.demo-list ul{margin:0;padding-left:20px}
-.demo-list li{margin:11px 0}
-.sidebar{position:sticky;top:24px;background:#111827;border:1px solid #1f2937;border-radius:12px;padding:22px}
-.sidebar h2{margin:0 0 14px;font-size:18px}
-.current{margin-bottom:14px;color:#cbd5e1;font-size:14px}
+h1{margin:0 0 16px}
+code{color:#a5f3fc}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr) 360px;gap:20px;align-items:start}
+.demo-list{background:#111827;border:1px solid #1f2937;border-radius:12px;padding:18px;max-height:calc(100vh - 100px);overflow:auto}
+.demo-list ul{margin:0;padding-left:18px}
+.demo-list li{margin:9px 0;font-size:14px}
+.preview{background:#111827;border:1px solid #1f2937;border-radius:12px;overflow:hidden;min-height:620px;position:relative}
+.preview iframe{display:block;width:100%;height:calc(100vh - 130px);min-height:620px;border:0;background:#020617}
+.frame-empty{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#64748b;font-size:15px;pointer-events:none;text-align:center;padding:20px}
+.sidebar{position:sticky;top:24px;background:#111827;border:1px solid #1f2937;border-radius:12px;padding:18px}
+.sidebar h2{margin:0 0 12px;font-size:17px}
+.current{margin-bottom:12px;color:#cbd5e1;font-size:13px;line-height:1.8}
 .badge{display:inline-block;padding:2px 8px;border-radius:999px;background:#0b1220;border:1px solid #334155;color:#7dd3fc;font-size:12px}
-.switch{display:flex;gap:8px;margin:14px 0 18px}
-.switch button{flex:1;cursor:pointer;border:1px solid #334155;background:#0b1220;color:#e5e7eb;border-radius:8px;padding:9px 10px;font-size:14px}
+.switch{display:flex;gap:8px;margin:12px 0 16px}
+.switch button{flex:1;cursor:pointer;border:1px solid #334155;background:#0b1220;color:#e5e7eb;border-radius:8px;padding:9px;font-size:14px}
 .switch button.active{background:#0284c7;border-color:#0284c7;color:#fff}
-.panel{display:none;background:#0b1220;border:1px solid #1f2937;border-radius:8px;padding:14px;margin-bottom:12px}
-.panel.active{display:block}
-.panel h3{margin:0 0 8px;font-size:14px;color:#e2e8f0}
-.panel p{margin:8px 0;color:#94a3b8;font-size:13px;line-height:1.6}
-pre{margin:8px 0;padding:10px;background:#020617;border:1px solid #1e293b;border-radius:6px;color:#a5f3fc;font-size:12px;overflow:auto}
-.diff{color:#94a3b8;font-size:13px;line-height:1.7}
+.run-panel{border:1px solid #1f2937;border-radius:8px;padding:12px;margin-bottom:10px;background:#0b1220;opacity:.7;transition:.15s}
+.run-panel.active{border-color:#0284c7;opacity:1}
+.run-panel h3{margin:0 0 6px;font-size:14px}
+.run-panel p{margin:6px 0;color:#94a3b8;font-size:12px;line-height:1.65}
+pre{margin:6px 0;padding:9px;background:#020617;border:1px solid #1e293b;border-radius:5px;color:#a5f3fc;font-size:12px;overflow:auto}
+.diff{color:#94a3b8;font-size:12px;line-height:1.8;border-top:1px solid #1f2937;padding-top:10px}
 .diff strong{color:#e2e8f0}
-@media (max-width:900px){.layout{grid-template-columns:1fr}.sidebar{position:static}}
+.note{color:#94a3b8;font-size:13px;line-height:1.7;margin-top:16px}
+@media (max-width:1200px){.layout{grid-template-columns:220px minmax(0,1fr)}.sidebar{grid-column:1/-1;position:static}}
+@media (max-width:800px){.layout{grid-template-columns:1fr}.demo-list{max-height:300px}.preview iframe{height:520px}}
 </style>
 </head>
 <body>
 <div class="layout">
-  <main>
+  <aside class="demo-list">
     <h1>FastD Demo</h1>
-    <div class="demo-list">
-      <ul>
-        <li><a class="demo-link" href="/demo/sse.html">SSE EventSource 演示</a></li>
-        <li><a class="demo-link" href="/demo/ai.html">AI 流式对话演示</a></li>
-        <li><a class="demo-link" href="/demo/middleware.html">RequestIdMiddleware 演示</a></li>
-        <li><a class="demo-link" href="/demo/di.html">构造器注入 / Resolver 演示</a></li>
-        <li><a class="demo-link" href="/demo/cache.html">Cache 演示</a></li>
-        <li><a class="demo-link" href="/demo/database.html">Database 演示</a></li>
-        <li><a class="demo-link" href="/demo/swoole.html">Swoole Server 演示</a></li>
-        <li><a class="demo-link" href="/demo/parallel.html">Swoole 协程并发演示</a></li>
-        <li><a class="demo-link" href="/demo/request.html">请求读取演示</a></li>
-        <li><a class="demo-link" href="/demo/cookie.html">Cookie 演示</a></li>
-        <li><a class="demo-link" href="/demo/upload.html">文件上传演示</a></li>
-        <li><a class="demo-link" href="/demo/event.html">自定义事件演示</a></li>
-        <li><a class="demo-link" href="/demo/response.html">响应状态 / 重定向演示</a></li>
-        <li><a class="demo-link" href="/demo/error.html">异常处理演示</a></li>
-        <li><a class="demo-link" href="/demo/process.html">Process / Console 演示</a></li>
-        <li><a class="demo-link" href="/demo/config.html">配置 / 运行时演示</a></li>
-        <li><a class="demo-link" href="/demo/http-client.html">HTTP Client 示例</a></li>
-        <li><a class="demo-link" href="/demo/redis-session.html">Redis Session 示例</a></li>
-        <li><a class="demo-link" href="/demo/cors.html">CORS / OPTIONS 演示</a></li>
-        <li><a class="demo-link" href="/demo/download.html">文件下载演示</a></li>
-        <li><a class="demo-link" href="/demo/db-transaction.html">数据库事务演示</a></li>
-      </ul>
-    </div>
-    <p style="color:#94a3b8;font-size:14px;line-height:1.7">静态页面仅用于人工联调。右侧可切换目标运行时，并查看对应的启动方式和行为差异。</p>
-  </main>
+    <ul>
+      <li><a class="demo-link" href="/demo/sse.html">SSE EventSource 演示</a></li>
+      <li><a class="demo-link" href="/demo/ai.html">AI 流式对话演示</a></li>
+      <li><a class="demo-link" href="/demo/middleware.html">RequestIdMiddleware 演示</a></li>
+      <li><a class="demo-link" href="/demo/di.html">构造器注入 / Resolver 演示</a></li>
+      <li><a class="demo-link" href="/demo/cache.html">Cache 演示</a></li>
+      <li><a class="demo-link" href="/demo/database.html">Database 演示</a></li>
+      <li><a class="demo-link" href="/demo/swoole.html">Swoole Server 演示</a></li>
+      <li><a class="demo-link" href="/demo/parallel.html">Swoole 协程并发演示</a></li>
+      <li><a class="demo-link" href="/demo/request.html">请求读取演示</a></li>
+      <li><a class="demo-link" href="/demo/cookie.html">Cookie 演示</a></li>
+      <li><a class="demo-link" href="/demo/upload.html">文件上传演示</a></li>
+      <li><a class="demo-link" href="/demo/event.html">自定义事件演示</a></li>
+      <li><a class="demo-link" href="/demo/response.html">响应状态 / 重定向演示</a></li>
+      <li><a class="demo-link" href="/demo/error.html">异常处理演示</a></li>
+      <li><a class="demo-link" href="/demo/process.html">Process / Console 演示</a></li>
+      <li><a class="demo-link" href="/demo/config.html">配置 / 运行时演示</a></li>
+      <li><a class="demo-link" href="/demo/http-client.html">HTTP Client 示例</a></li>
+      <li><a class="demo-link" href="/demo/redis-session.html">Redis Session 示例</a></li>
+      <li><a class="demo-link" href="/demo/cors.html">CORS / OPTIONS 演示</a></li>
+      <li><a class="demo-link" href="/demo/download.html">文件下载演示</a></li>
+      <li><a class="demo-link" href="/demo/db-transaction.html">数据库事务演示</a></li>
+    </ul>
+  </aside>
+
+  <section class="preview">
+    <div class="frame-empty" id="frame-empty">选择左侧 Demo 查看<br><span style="font-size:12px">页面内展示，不跳转</span></div>
+    <iframe id="demo-frame" title="FastD Demo Preview"></iframe>
+  </section>
 
   <aside class="sidebar">
     <h2>运行环境</h2>
     <div class="current">
-      当前访问：<span class="badge" id="current-runtime">检测中…</span>
+      当前访问：<span class="badge" id="current-runtime">检测中…</span><br>
+      目标 API：<span class="badge" id="api-target">-</span>
     </div>
 
-    <div class="switch" id="runtime-switch" role="group" aria-label="目标运行时">
+    <div class="switch" id="runtime-switch" role="group" aria-label="目标 API 运行时">
       <button type="button" data-mode="cgi">CGI</button>
       <button type="button" data-mode="swoole">Swoole</button>
     </div>
 
-    <div class="panel" id="panel-cgi">
+    <div class="run-panel" id="panel-cgi">
       <h3>启动 CGI</h3>
       <pre>php -S 127.0.0.1:8099 -t web</pre>
-      <p>访问：<code>http://127.0.0.1:8099/demo/index.html</code></p>
-      <p>每个请求独立执行；<code>/parallel-demo</code> 下任务串行执行。</p>
+      <p>页面访问：<code>http://127.0.0.1:8099/demo/index.html</code></p>
+      <p>API 域名取当前 URL，<code>/parallel-demo</code> 串行执行。</p>
     </div>
 
-    <div class="panel" id="panel-swoole">
+    <div class="run-panel" id="panel-swoole">
       <h3>启动 Swoole</h3>
       <pre>php bin/server start</pre>
-      <p>访问：<code>http://127.0.0.1:9527/demo/index.html</code></p>
-      <p>常驻 Worker 与协程调度；<code>/parallel-demo</code> 下任务并发执行。</p>
+      <p>API 域名取 <code>config/swoole.php</code> 的 http host/port。</p>
+      <p><code>/parallel-demo</code> 协程并发执行。</p>
       <pre>php bin/server stop</pre>
     </div>
 
     <div class="diff">
-      <p><strong>CGI</strong>：请求级进程，无协程上下文，Parallel 自动串行。</p>
-      <p><strong>Swoole</strong>：常驻 Worker，协程上下文，Parallel 自动并发。</p>
-      <p>切换只改变页面内 Demo 链接的目标端口，不会切换当前服务器。</p>
+      <p><strong>HTML 页面</strong>：始终从当前 URL 的 CGI 域名加载，切换运行时不会切换页面域名。</p>
+      <p><strong>API 请求</strong>：CGI 模式请求当前 URL；Swoole 模式请求 swoole 配置中的域名。</p>
+      <p>切换只改变 API 目标，不切换当前服务器。</p>
     </div>
   </aside>
 </div>
 
 <script>
 (function () {
-  var switchRoot = document.getElementById('runtime-switch');
+  var config = window.__DEMO_RUNTIME__ || {};
+  var currentRuntime = String(config.current || '').toLowerCase();
+  var storageKey = 'fastd.demo.runtime';
+  var query = new URLSearchParams(location.search);
+  var mode = query.get('api');
+  var frame = document.getElementById('demo-frame');
+  var frameEmpty = document.getElementById('frame-empty');
   var currentBadge = document.getElementById('current-runtime');
+  var apiTarget = document.getElementById('api-target');
+  var switchRoot = document.getElementById('runtime-switch');
   var buttons = switchRoot.querySelectorAll('button[data-mode]');
   var links = document.querySelectorAll('a.demo-link');
-  var currentMode = 'cgi';
+  var currentPage = '';
 
-  function targetBase(mode) {
-    return location.protocol + '//' + location.hostname + ':' + (mode === 'swoole' ? 9527 : 8099);
+  try {
+    mode = mode || localStorage.getItem(storageKey);
+  } catch (error) {
+    // ignore storage errors
   }
 
-  function applyMode(mode) {
-    currentMode = mode;
+  if (mode !== 'swoole' && mode !== 'cgi') {
+    mode = currentRuntime === 'swoole' ? 'swoole' : 'cgi';
+  }
+
+  currentBadge.textContent = currentRuntime === 'swoole'
+    ? 'Swoole'
+    : (currentRuntime === 'fastcgi' ? 'CGI / FastCGI' : (currentRuntime || 'unknown'));
+
+  function apiBase(nextMode) {
+    if (nextMode === 'swoole') {
+      return String(config.swoole_base || location.origin).replace(/\/$/, '');
+    }
+    return location.origin.replace(/\/$/, '');
+  }
+
+  function pageUrl(path) {
+    return location.origin + path + '?api=' + mode;
+  }
+
+  function applyMode(nextMode) {
+    mode = nextMode === 'swoole' ? 'swoole' : 'cgi';
+    try {
+      localStorage.setItem(storageKey, mode);
+    } catch (error) {
+      // ignore storage errors
+    }
 
     buttons.forEach(function (button) {
       var active = button.getAttribute('data-mode') === mode;
@@ -117,15 +160,13 @@ pre{margin:8px 0;padding:10px;background:#020617;border:1px solid #1e293b;border
       button.setAttribute('aria-pressed', active ? 'true' : 'false');
     });
 
-    ['cgi', 'swoole'].forEach(function (name) {
-      document.getElementById('panel-' + name).classList.toggle('active', name === mode);
-    });
+    document.getElementById('panel-cgi').classList.toggle('active', mode === 'cgi');
+    document.getElementById('panel-swoole').classList.toggle('active', mode === 'swoole');
+    apiTarget.textContent = apiBase(mode);
 
-    var base = targetBase(mode);
-    links.forEach(function (link) {
-      var url = new URL(link.getAttribute('href'), location.origin);
-      link.href = base + url.pathname + url.search + url.hash;
-    });
+    if (currentPage !== '') {
+      frame.src = pageUrl(currentPage);
+    }
   }
 
   buttons.forEach(function (button) {
@@ -134,21 +175,23 @@ pre{margin:8px 0;padding:10px;background:#020617;border:1px solid #1e293b;border
     });
   });
 
-  // 根据当前后端运行时初始化目标模式；检测失败时按端口猜测。
-  fetch('/config-demo', {headers: {'Accept': 'application/json'}})
-    .then(function (response) { return response.json(); })
-    .then(function (body) {
-      var runtime = String(body.runtime || '').toLowerCase();
-      var mode = runtime === 'swoole' ? 'swoole' : 'cgi';
-
-      currentBadge.textContent = runtime === 'swoole' ? 'Swoole' : (runtime === 'fastcgi' ? 'CGI / FastCGI' : (runtime || 'unknown'));
-      applyMode(mode);
-    })
-    .catch(function () {
-      var mode = location.port === '9527' ? 'swoole' : 'cgi';
-      currentBadge.textContent = mode === 'swoole' ? 'Swoole' : 'CGI';
-      applyMode(mode);
+  links.forEach(function (link) {
+    link.addEventListener('click', function (event) {
+      event.preventDefault();
+      var path = new URL(link.getAttribute('href'), location.origin).pathname;
+      currentPage = path;
+      frame.src = pageUrl(path);
+      frameEmpty.style.display = 'none';
     });
+  });
+
+  frame.addEventListener('load', function () {
+    if (frame.getAttribute('src')) {
+      frameEmpty.style.display = 'none';
+    }
+  });
+
+  applyMode(mode);
 })();
 </script>
 </body>
