@@ -3,47 +3,71 @@
 declare(strict_types=1);
 
 /**
- * 自动将 DemoServiceProvider 写入宿主的 config/service.php。
+ * 自动同步 Demo 所需配置：
+ * - config/service.php：写入 DemoServiceProvider
+ * - config/swoole.php：写入 Demo 专用监听端口
  *
  * 由宿主 Composer 的 post-install-cmd / post-update-cmd 调用。
  */
 
 $project = getcwd() ?: dirname(__DIR__, 4);
-$configFile = $project . '/config/service.php';
+
 $provider = 'FastD\\Demo\\DemoServiceProvider';
 $providerConstant = '\\FastD\\Demo\\DemoServiceProvider::class';
 
-if (!is_file($configFile)) {
-    fwrite(STDERR, "skip: config/service.php not found in {$project}\n");
-    exit(0);
+$serviceFile = $project . '/config/service.php';
+if (is_file($serviceFile)) {
+    $services = include $serviceFile;
+
+    if (is_array($services)
+        && !in_array($provider, $services, true)
+        && !in_array($providerConstant, $services, true)
+    ) {
+        $services[] = $provider;
+
+        $lines = [
+            '<?php',
+            '',
+            '// 服务提供者配置。',
+            '//',
+            '// 由 fastd/dobee-demo 的安装脚本自动维护。',
+            'return [',
+        ];
+        foreach ($services as $service) {
+            $lines[] = '    ' . ($service === $provider ? $providerConstant : var_export($service, true)) . ',';
+        }
+        $lines[] = '];';
+
+        file_put_contents($serviceFile, implode(PHP_EOL, $lines) . PHP_EOL);
+        fwrite(STDOUT, "added {$provider} to config/service.php\n");
+    }
 }
 
-$services = include $configFile;
+$swooleFile = $project . '/config/swoole.php';
+if (is_file($swooleFile)) {
+    $content = (string) file_get_contents($swooleFile);
+    $pattern = '/(\/\/ demo:swoole:start\n)(.*?)(\/\/ demo:swoole:end)/s';
 
-if (!is_array($services)) {
-    fwrite(STDERR, "skip: config/service.php must return an array\n");
-    exit(0);
-}
-
-if (in_array($provider, $services, true) || in_array($providerConstant, $services, true)) {
-    exit(0);
-}
-
-$services[] = $provider;
-
-$lines = [
-    '<?php',
-    '',
-    '// 服务提供者配置。',
-    '//',
-    '// 由 fastd/dobee-demo 的安装脚本自动维护。',
-    'return [',
+    if (preg_match($pattern, $content) === 1) {
+        $block = <<<'SWOOLE'
+$demoListens = [
+    [
+        'host' => '127.0.0.1',
+        'port' => 9528,
+        'worker' => \FastD\Swoole\Listener\Server\StatsListener::class,
+    ],
+    [
+        'host' => '127.0.0.1',
+        'port' => 9529,
+        'worker' => \FastD\Demo\Listener\Server\DemoServerListener::class,
+    ],
 ];
-foreach ($services as $service) {
-    $lines[] = '    ' . ($service === $provider ? $providerConstant : var_export($service, true)) . ',';
+SWOOLE;
+
+        $updated = preg_replace($pattern, '$1' . $block . "\n" . '$3', $content, 1);
+        if (is_string($updated) && $updated !== $content) {
+            file_put_contents($swooleFile, $updated);
+            fwrite(STDOUT, "added demo listeners to config/swoole.php\n");
+        }
+    }
 }
-$lines[] = '];';
-
-file_put_contents($configFile, implode(PHP_EOL, $lines) . PHP_EOL);
-
-fwrite(STDOUT, "added {$provider} to config/service.php\n");
