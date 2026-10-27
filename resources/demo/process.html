@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="zh-CN">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>FastD Process / Console Demo</title></head>
+<body style="font-family:system-ui;background:#0f172a;color:#e5e7eb;padding:32px">
+<h1>Process / Console Demo</h1>
+<p>Demo 已注册命令和 Worker，可在应用根目录执行：</p>
+<pre style="background:#0b1220;padding:16px;border-radius:8px">php bin/console list
+php bin/console demo:hello
+
+php bin/process start</pre>
+<p>注册入口：</p>
+<ul>
+  <li><code>DemoCommand</code> → <code>demo:hello</code></li>
+  <li><code>DemoWorker</code> → <code>process.worker.demo</code>、<code>process.worker.demo-2</code></li>
+  <li><code>DemoSignalListener</code> → 进程信号示例</li>
+</ul>
+<p><a style="color:#38bdf8" href="/demo/index.html">返回 Demo 首页</a></p>
+</body>
+</html>
