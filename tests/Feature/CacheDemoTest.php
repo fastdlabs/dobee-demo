@@ -11,10 +11,18 @@ class CacheDemoTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        foreach (glob(dirname(__DIR__, 2) . '/runtime/cache/*') ?: [] as $file) {
-            if (is_file($file)) {
-                @unlink($file);
-            }
+        $dir = dirname(__DIR__, 2) . '/runtime/cache';
+        if (!is_dir($dir)) {
+            return;
+        }
+
+        $files = new \RecursiveIteratorIterator(
+            new \RecursiveDirectoryIterator($dir, \FilesystemIterator::SKIP_DOTS),
+            \RecursiveIteratorIterator::CHILD_FIRST
+        );
+
+        foreach ($files as $file) {
+            $file->isDir() ? @rmdir($file->getPathname()) : @unlink($file->getPathname());
         }
     }
 
