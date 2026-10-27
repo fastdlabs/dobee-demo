@@ -73,6 +73,8 @@ Demo 页面内的 API 请求按右侧选择切换：
 
 页面通过 `/demo/runtime.js` 统一处理 fetch、EventSource 和 API 链接的目标地址；跨域请求由 Demo CORS 中间件处理。
 
+请求示例页 `/demo/request.html` 会同时显示实际请求 URL、method、headers、body 和响应，便于区分当前 API 目标。
+
 ### 启动 Swoole
 
 ```bash

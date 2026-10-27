@@ -3,20 +3,47 @@
 <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>FastD Request Demo</title></head>
 <body style="font-family:system-ui;background:#0f172a;color:#e5e7eb;padding:32px">
 <h1>请求读取演示</h1>
-<p>展示 query、header、cookie 和 POST body。</p>
+<p>展示 query、header、cookie 和 POST body；同时显示实际请求地址，便于区分 CGI / Swoole API 目标。</p>
 <label>姓名：<input id="name" value="fastd"></label>
 <button onclick="run()">POST /request-demo</button>
+
+<h2 style="font-size:15px;margin-top:24px">实际请求</h2>
+<pre id="actual-request" style="background:#0b1220;padding:16px;border-radius:8px;white-space:pre-wrap">-</pre>
+
+<h2 style="font-size:15px;margin-top:24px">响应</h2>
 <pre id="out" style="background:#0b1220;padding:16px;border-radius:8px">-</pre>
+
 <p><a style="color:#38bdf8" href="/demo/index.html">返回 Demo 首页</a></p>
 <script>
+function actualUrl(path) {
+  if (window.demoRuntime) {
+    return window.demoRuntime.apiUrl(path);
+  }
+  return new URL(path, location.origin).toString();
+}
+
 async function run(){
   const name=document.getElementById('name').value;
-  const r=await fetch('/request-demo?hello=world',{
-    method:'POST',
-    headers:{'Content-Type':'application/json','X-Demo':'request-demo'},
-    body:JSON.stringify({name})
-  });
-  document.getElementById('out').textContent=JSON.stringify(await r.json(),null,2);
+  const path='/request-demo?hello=world';
+  const method='POST';
+  const headers={
+    'Content-Type':'application/json',
+    'X-Demo':'request-demo'
+  };
+  const body=JSON.stringify({name});
+  const url=actualUrl(path);
+
+  document.getElementById('actual-request').textContent =
+    method + ' ' + url + '\n' +
+    'Headers: ' + JSON.stringify(headers, null, 2) + '\n' +
+    'Body: ' + body;
+
+  const r=await fetch(path, {method, headers, body});
+  const responseBody=await r.json();
+
+  document.getElementById('out').textContent =
+    'HTTP ' + r.status + ' (' + r.url + ')\n' +
+    JSON.stringify(responseBody, null, 2);
 }
 </script>
 </body>

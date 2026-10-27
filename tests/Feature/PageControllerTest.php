@@ -34,6 +34,8 @@ class PageControllerTest extends TestCase
         $this->assertStringContainsString('window.__DEMO_RUNTIME__', $body);
         $this->assertStringContainsString('/demo/runtime.js', $body);
         $this->assertStringContainsString('swoole_base', $body);
+        $request = $this->handleRequest('GET', '/demo/request.html');
+        $this->assertStringContainsString('id="actual-request"', (string) $request->getBody());
     }
 
     public function testRuntimeScriptIsServedAsJavaScript(): void
