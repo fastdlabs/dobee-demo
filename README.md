@@ -54,3 +54,14 @@ php bin/console demo:hello
 # Hello from fastd/dobee-demo command
 php bin/process
 ```
+
+
+## 自动注册 Service
+
+安装本包时，dobee 的 Composer 安装脚本会调用 `scripts/install.php` 自动把：
+
+```php
+\FastD\Demo\DemoServiceProvider::class
+```
+
+写入宿主的 `config/service.php`。宿主不需要手动修改 service 配置。
