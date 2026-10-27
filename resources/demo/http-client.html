@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="zh-CN">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>FastD HTTP Client Demo</title></head>
+<body style="font-family:system-ui;background:#0f172a;color:#e5e7eb;padding:32px">
+<h1>HTTP Client</h1>
+<p>FastD 提供 PSR-18 客户端：<code>FastD\Http\Request\Client</code>。</p>
+<pre style="background:#0b1220;padding:16px;border-radius:8px">use FastD\Http\Request\Client;
+use FastD\Http\Request\Request;
+
+$client = new Client([
+    CURLOPT_TIMEOUT => 5,
+    CURLOPT_CONNECTTIMEOUT => 2,
+]);
+
+$request = new Request('GET', 'https://example.com/');
+$response = $client->sendRequest($request);
+
+echo $response->getStatusCode();
+echo (string) $response->getBody();</pre>
+<p>生产环境请使用可控上游，并设置超时、重试和错误处理。</p>
+<p><a style="color:#38bdf8" href="/demo/index.html">返回 Demo 首页</a></p>
+</body>
+</html>

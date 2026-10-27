@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="zh-CN">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>FastD Redis Session Demo</title></head>
+<body style="font-family:system-ui;background:#0f172a;color:#e5e7eb;padding:32px">
+<h1>Redis Session</h1>
+<p>要求：<code>ext-redis</code>、<code>fastd/http &gt;= 8.2</code>，以及可用的 Redis 服务。</p>
+<pre style="background:#0b1220;padding:16px;border-radius:8px">use FastD\Http\Session\Handler\RedisSessionHandler;
+
+return [
+    'enabled' => true,
+    'handler' => RedisSessionHandler::class,
+    'ttl' => 1440,
+    'redis' => [
+        'host' => '127.0.0.1',
+        'port' => 6379,
+        'password' => null,
+        'database' => 0,
+        'timeout' => 1.0,
+        'prefix' => 'fastd:session:',
+    ],
+];</pre>
+<p>连接由 FastD <code>SessionServiceProvider</code> 负责建立。</p>
+<p><a style="color:#38bdf8" href="/demo/index.html">返回 Demo 首页</a></p>
+</body>
+</html>

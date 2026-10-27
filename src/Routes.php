@@ -11,6 +11,7 @@ use FastD\Demo\Controller\SwooleDemoController;
 use FastD\Demo\Controller\UploadDemoController;
 use FastD\Demo\Controller\InjectionDemoController;
 use FastD\Demo\Controller\MiddlewareDemoController;
+use FastD\Demo\Controller\ConfigDemoController;
 use FastD\Demo\Controller\CookieDemoController;
 use FastD\Demo\Controller\ErrorDemoController;
 use FastD\Demo\Controller\EventDemoController;
@@ -42,6 +43,7 @@ final class Routes
             ['GET', '/event-demo', EventDemoController::class],
             ['GET', '/response-demo', ResponseDemoController::class],
             ['GET', '/error-demo', ErrorDemoController::class, [ExceptionDemoMiddleware::class]],
+            ['GET', '/config-demo', ConfigDemoController::class],
             ['POST', '/upload-demo', UploadDemoController::class],
             ['GET', '/di-demo', InjectionDemoController::class, [InjectionDemoMiddleware::class]],
             ['GET', '/middleware-demo', MiddlewareDemoController::class, [RequestIdMiddleware::class]],
