@@ -85,16 +85,16 @@
         },
         {
             "name": "fastd/cache",
-            "version": "v8.1.4",
+            "version": "v8.1.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fastdlabs/cache.git",
-                "reference": "c61af009bad1efc75a868b2b41685ea84479986b"
+                "reference": "0c48a81f1ffc61b166928245cfcac7ba7391ae90"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fastdlabs/cache/zipball/c61af009bad1efc75a868b2b41685ea84479986b",
-                "reference": "c61af009bad1efc75a868b2b41685ea84479986b",
+                "url": "https://api.github.com/repos/fastdlabs/cache/zipball/0c48a81f1ffc61b166928245cfcac7ba7391ae90",
+                "reference": "0c48a81f1ffc61b166928245cfcac7ba7391ae90",
                 "shasum": ""
             },
             "require": {
@@ -132,24 +132,25 @@
                     "email": "384099566@qq.com"
                 }
             ],
+            "description": "Multi-layer cache and HTTP cache middleware for FastD, backed by Symfony Cache.",
             "support": {
                 "issues": "https://github.com/fastdlabs/cache/issues",
-                "source": "https://github.com/fastdlabs/cache/tree/v8.1.4"
+                "source": "https://github.com/fastdlabs/cache/tree/v8.1.6"
             },
-            "time": "2026-10-27T03:39:06+00:00"
+            "time": "2026-10-27T09:14:54+00:00"
         },
         {
             "name": "fastd/config",
-            "version": "v8.0.4",
+            "version": "v8.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fastdlabs/config.git",
-                "reference": "8ecec3522949312e6bf5e12798488d58994abe3b"
+                "reference": "b36ec0df00fc991128362004b7972c9b4d38c462"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fastdlabs/config/zipball/8ecec3522949312e6bf5e12798488d58994abe3b",
-                "reference": "8ecec3522949312e6bf5e12798488d58994abe3b",
+                "url": "https://api.github.com/repos/fastdlabs/config/zipball/b36ec0df00fc991128362004b7972c9b4d38c462",
+                "reference": "b36ec0df00fc991128362004b7972c9b4d38c462",
                 "shasum": ""
             },
             "require": {
@@ -177,29 +178,29 @@
                     "email": "384099566@qq.com"
                 }
             ],
-            "description": "config container",
+            "description": "Lightweight JSON, YAML, INI and PHP configuration parser for FastD.",
             "keywords": [
                 "FastD",
                 "config"
             ],
             "support": {
                 "issues": "https://github.com/fastdlabs/config/issues",
-                "source": "https://github.com/fastdlabs/config/tree/v8.0.4"
+                "source": "https://github.com/fastdlabs/config/tree/v8.0.6"
             },
-            "time": "2026-10-27T03:39:18+00:00"
+            "time": "2026-10-27T09:15:09+00:00"
         },
         {
             "name": "fastd/container",
-            "version": "v8.1.2",
+            "version": "v8.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fastdlabs/container.git",
-                "reference": "003a6551702e2d6f862829d34811f1b9b81de804"
+                "reference": "165b6e3bc8163341b390707417bbb5dd41489cd6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fastdlabs/container/zipball/003a6551702e2d6f862829d34811f1b9b81de804",
-                "reference": "003a6551702e2d6f862829d34811f1b9b81de804",
+                "url": "https://api.github.com/repos/fastdlabs/container/zipball/165b6e3bc8163341b390707417bbb5dd41489cd6",
+                "reference": "165b6e3bc8163341b390707417bbb5dd41489cd6",
                 "shasum": ""
             },
             "require": {
@@ -226,29 +227,29 @@
                     "email": "384099566@qq.com"
                 }
             ],
-            "description": "FastD Container",
+            "description": "PSR-11 dependency injection container with constructor injection for FastD.",
             "keywords": [
                 "FastD",
                 "container"
             ],
             "support": {
                 "issues": "https://github.com/fastdlabs/container/issues",
-                "source": "https://github.com/fastdlabs/container/tree/v8.1.2"
+                "source": "https://github.com/fastdlabs/container/tree/v8.1.4"
             },
-            "time": "2026-10-27T03:39:24+00:00"
+            "time": "2026-10-27T09:15:00+00:00"
         },
         {
             "name": "fastd/event",
-            "version": "v8.0.4",
+            "version": "v8.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fastdlabs/event.git",
-                "reference": "b1758dabbaae8ea35fae58ae02cca56045b942ae"
+                "reference": "e9f29897058b3d5a8f4764bdd02ad48beabc2603"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fastdlabs/event/zipball/b1758dabbaae8ea35fae58ae02cca56045b942ae",
-                "reference": "b1758dabbaae8ea35fae58ae02cca56045b942ae",
+                "url": "https://api.github.com/repos/fastdlabs/event/zipball/e9f29897058b3d5a8f4764bdd02ad48beabc2603",
+                "reference": "e9f29897058b3d5a8f4764bdd02ad48beabc2603",
                 "shasum": ""
             },
             "require": {
@@ -272,34 +273,33 @@
                     "email": "384099566@qq.com"
                 }
             ],
+            "description": "PSR-14 event dispatcher with priorities, inheritance and coroutine support.",
             "support": {
                 "issues": "https://github.com/fastdlabs/event/issues",
-                "source": "https://github.com/fastdlabs/event/tree/v8.0.4"
+                "source": "https://github.com/fastdlabs/event/tree/v8.0.6"
             },
-            "time": "2026-10-27T03:39:31+00:00"
+            "time": "2026-10-27T09:14:48+00:00"
         },
         {
             "name": "fastd/fastd",
-            "version": "v8.2.0",
+            "version": "v8.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fastdlabs/fastD.git",
-                "reference": "12968ebc6b2a6f7b98118222d35cf4f7c1ba2d01"
+                "reference": "5d1bc48c01c7dfc6c71614b899a80875092d4529"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fastdlabs/fastD/zipball/12968ebc6b2a6f7b98118222d35cf4f7c1ba2d01",
-                "reference": "12968ebc6b2a6f7b98118222d35cf4f7c1ba2d01",
+                "url": "https://api.github.com/repos/fastdlabs/fastD/zipball/5d1bc48c01c7dfc6c71614b899a80875092d4529",
+                "reference": "5d1bc48c01c7dfc6c71614b899a80875092d4529",
                 "shasum": ""
             },
             "require": {
                 "ext-json": "*",
-                "fastd/cache": "^8.1",
                 "fastd/config": "^8.0",
                 "fastd/container": "^8.1",
                 "fastd/event": "^8.0",
-                "fastd/http": "^8.1",
-                "fastd/medoodb": "^8.0",
+                "fastd/http": "^8.2",
                 "fastd/middleware": "^8.0",
                 "fastd/routing": "^8.1",
                 "fastd/swoole": "^8.1",
@@ -311,10 +311,12 @@
             "require-dev": {
                 "phpstan/phpstan": "^2.3",
                 "phpunit/phpunit": "^13.4",
-                "swoole/ide-helper": "@dev"
+                "swoole/ide-helper": "^6.0"
             },
             "suggest": {
-                "fastd/swoole": "Can effectively improve performance。"
+                "ext-redis": "Required by FastD\\Http\\Session\\Handler\\RedisSessionHandler.",
+                "fastd/cache": "Optional cache component for applications that need caching.",
+                "fastd/medoodb": "Optional MedooDB component for applications that need a database."
             },
             "bin": [
                 "console",
@@ -357,22 +359,22 @@
             ],
             "support": {
                 "issues": "https://github.com/fastdlabs/fastD/issues",
-                "source": "https://github.com/fastdlabs/fastD/tree/v8.2.0"
+                "source": "https://github.com/fastdlabs/fastD/tree/v8.3.1"
             },
-            "time": "2026-10-27T07:47:44+00:00"
+            "time": "2026-10-27T11:14:41+00:00"
         },
         {
             "name": "fastd/http",
-            "version": "v8.1.3",
+            "version": "v8.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fastdlabs/http.git",
-                "reference": "ad8568960d2885036170a40a1ad784d6fece5cdd"
+                "reference": "34884c22d6b83c28bfa50fd2b94f562ec674d051"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fastdlabs/http/zipball/ad8568960d2885036170a40a1ad784d6fece5cdd",
-                "reference": "ad8568960d2885036170a40a1ad784d6fece5cdd",
+                "url": "https://api.github.com/repos/fastdlabs/http/zipball/34884c22d6b83c28bfa50fd2b94f562ec674d051",
+                "reference": "34884c22d6b83c28bfa50fd2b94f562ec674d051",
                 "shasum": ""
             },
             "require": {
@@ -388,10 +390,11 @@
             "require-dev": {
                 "phpstan/phpstan": "^2.3",
                 "phpunit/phpunit": "^13.4",
-                "swoole/ide-helper": "@dev"
+                "swoole/ide-helper": "^6.0"
             },
             "suggest": {
-                "ext-swoole": "Required to use the SwooleTableSessionHandler in a Swoole runtime"
+                "ext-redis": "Required to use RedisSessionHandler with ext-redis.",
+                "ext-swoole": "Required to use the SwooleTableSessionHandler in a Swoole >= 6.0 runtime"
             },
             "type": "library",
             "autoload": {
@@ -409,7 +412,7 @@
                     "email": "384099566@qq.com"
                 }
             ],
-            "description": "FastD Http",
+            "description": "PSR-7, PSR-17 and PSR-18 HTTP message, factory and client component for FastD.",
             "keywords": [
                 "FastD",
                 "http",
@@ -419,22 +422,22 @@
             ],
             "support": {
                 "issues": "https://github.com/fastdlabs/http/issues",
-                "source": "https://github.com/fastdlabs/http/tree/v8.1.3"
+                "source": "https://github.com/fastdlabs/http/tree/v8.2.1"
             },
-            "time": "2026-10-27T03:38:54+00:00"
+            "time": "2026-10-27T11:14:47+00:00"
         },
         {
             "name": "fastd/medoodb",
-            "version": "v8.0.5",
+            "version": "v8.0.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fastdlabs/medoodb.git",
-                "reference": "31c252e6dbcbb6b2d4e82b4498503702b678aad0"
+                "reference": "c71274e657a866f0604bd48e5d6f022d04ac35e5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fastdlabs/medoodb/zipball/31c252e6dbcbb6b2d4e82b4498503702b678aad0",
-                "reference": "31c252e6dbcbb6b2d4e82b4498503702b678aad0",
+                "url": "https://api.github.com/repos/fastdlabs/medoodb/zipball/c71274e657a866f0604bd48e5d6f022d04ac35e5",
+                "reference": "c71274e657a866f0604bd48e5d6f022d04ac35e5",
                 "shasum": ""
             },
             "require": {
@@ -468,6 +471,7 @@
                     "email": "384099566@qq.com"
                 }
             ],
+            "description": "Medoo-based database component with connection pooling and FastD integration.",
             "homepage": "https://fastdlabs.com/",
             "keywords": [
                 "FastD",
@@ -476,22 +480,22 @@
             ],
             "support": {
                 "issues": "https://github.com/fastdlabs/medoodb/issues",
-                "source": "https://github.com/fastdlabs/medoodb/tree/v8.0.5"
+                "source": "https://github.com/fastdlabs/medoodb/tree/v8.0.7"
             },
-            "time": "2026-10-27T03:39:12+00:00"
+            "time": "2026-10-27T09:14:42+00:00"
         },
         {
             "name": "fastd/middleware",
-            "version": "v8.0.4",
+            "version": "v8.0.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fastdlabs/middleware.git",
-                "reference": "f5ab9a7f8fdfe44001d61142d0bddb68cfd0e28e"
+                "reference": "4794bbfc8b5468fab910590f0af60630d8892e5c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fastdlabs/middleware/zipball/f5ab9a7f8fdfe44001d61142d0bddb68cfd0e28e",
-                "reference": "f5ab9a7f8fdfe44001d61142d0bddb68cfd0e28e",
+                "url": "https://api.github.com/repos/fastdlabs/middleware/zipball/4794bbfc8b5468fab910590f0af60630d8892e5c",
+                "reference": "4794bbfc8b5468fab910590f0af60630d8892e5c",
                 "shasum": ""
             },
             "require": {
@@ -519,24 +523,25 @@
                     "email": "384099566@qq.com"
                 }
             ],
+            "description": "PSR-15 HTTP middleware stack for FastD.",
             "support": {
                 "issues": "https://github.com/fastdlabs/middleware/issues",
-                "source": "https://github.com/fastdlabs/middleware/tree/v8.0.4"
+                "source": "https://github.com/fastdlabs/middleware/tree/v8.0.6"
             },
-            "time": "2026-10-27T03:39:38+00:00"
+            "time": "2026-10-27T09:15:14+00:00"
         },
         {
             "name": "fastd/routing",
-            "version": "v8.1.2",
+            "version": "v8.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fastdlabs/routing.git",
-                "reference": "e501e398c3b0b0fa76543f3dda41c66cf473ebe3"
+                "reference": "cf5d6d56999e78d8bd545fab2605170a725e6d7a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fastdlabs/routing/zipball/e501e398c3b0b0fa76543f3dda41c66cf473ebe3",
-                "reference": "e501e398c3b0b0fa76543f3dda41c66cf473ebe3",
+                "url": "https://api.github.com/repos/fastdlabs/routing/zipball/cf5d6d56999e78d8bd545fab2605170a725e6d7a",
+                "reference": "cf5d6d56999e78d8bd545fab2605170a725e6d7a",
                 "shasum": ""
             },
             "require": {
@@ -565,34 +570,34 @@
                     "email": "384099566@qq.com"
                 }
             ],
-            "description": "FastD routing component",
+            "description": "PSR-7/PSR-15 router with nested routes, middleware and resolver support.",
             "keywords": [
                 "routing"
             ],
             "support": {
                 "issues": "https://github.com/fastdlabs/routing/issues",
-                "source": "https://github.com/fastdlabs/routing/tree/v8.1.2"
+                "source": "https://github.com/fastdlabs/routing/tree/v8.2.0"
             },
-            "time": "2026-10-27T03:39:44+00:00"
+            "time": "2026-10-27T10:25:34+00:00"
         },
         {
             "name": "fastd/swoole",
-            "version": "v8.1.4",
+            "version": "v8.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fastdlabs/swoole.git",
-                "reference": "e93301bebfc5581b93d2b31cf1128b536f7c8585"
+                "reference": "a85382c26f958aa5f22fc882917d232119d2bf55"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fastdlabs/swoole/zipball/e93301bebfc5581b93d2b31cf1128b536f7c8585",
-                "reference": "e93301bebfc5581b93d2b31cf1128b536f7c8585",
+                "url": "https://api.github.com/repos/fastdlabs/swoole/zipball/a85382c26f958aa5f22fc882917d232119d2bf55",
+                "reference": "a85382c26f958aa5f22fc882917d232119d2bf55",
                 "shasum": ""
             },
             "require": {
                 "ext-posix": "*",
                 "ext-sockets": "*",
-                "ext-swoole": "*",
+                "ext-swoole": ">=6.0",
                 "fastd/event": "^8.0",
                 "fastd/http": "^8.1",
                 "php": ">=8.4.1"
@@ -600,7 +605,7 @@
             "require-dev": {
                 "phpstan/phpstan": "^2.3",
                 "phpunit/phpunit": "^13.4",
-                "swoole/ide-helper": "@dev"
+                "swoole/ide-helper": "^6.0"
             },
             "type": "library",
             "autoload": {
@@ -618,12 +623,12 @@
                     "email": "bboyjanhuang@gmail.com"
                 }
             ],
-            "description": "FastD swoole.",
+            "description": "Swoole HTTP server, coroutine, IPC and client component for FastD, requiring Swoole >= 6.0.",
             "support": {
                 "issues": "https://github.com/fastdlabs/swoole/issues",
-                "source": "https://github.com/fastdlabs/swoole/tree/v8.1.4"
+                "source": "https://github.com/fastdlabs/swoole/tree/v8.2.1"
             },
-            "time": "2026-10-27T03:39:00+00:00"
+            "time": "2026-10-27T11:14:54+00:00"
         },
         {
             "name": "monolog/monolog",
