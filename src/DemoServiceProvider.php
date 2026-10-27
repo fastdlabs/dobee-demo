@@ -7,9 +7,14 @@ namespace FastD\Demo;
 use FastD\Cache\ServiceProvider\CacheServiceProvider;
 use FastD\Container\Container;
 use FastD\Container\ServiceProviderInterface;
+use FastD\Demo\Command\DemoCommand;
+use FastD\Demo\Listener\App\DemoEventListener;
+use FastD\Demo\Listener\Process\DemoSignalListener;
+use FastD\Demo\Process\DemoWorker;
 use FastD\Demo\Support\InjectionDemoGreeting;
 use FastD\MedooDB\ServiceProvider\DatabaseServiceProvider;
 use FastD\ServiceProvider\SessionServiceProvider;
+use Psr\Log\LoggerInterface;
 
 /**
  * Demo 包入口。
@@ -22,8 +27,33 @@ final class DemoServiceProvider implements ServiceProviderInterface
     public function register(Container $container): void
     {
         $this->registerCoreProviders($container);
-        $container->add(InjectionDemoGreeting::class, new InjectionDemoGreeting('Hello FastD'));
+        $this->registerDemoServices($container);
+        $this->registerDemoListener($container);
         $this->registerRoutes($container);
+    }
+
+    /**
+     * 命令、进程 Worker / Listener 都注册到容器，由 Terminal 从容器解析。
+     */
+    private function registerDemoServices(Container $container): void
+    {
+        $container->add(InjectionDemoGreeting::class, new InjectionDemoGreeting('Hello FastD'));
+        $container->add(DemoCommand::class, new DemoCommand());
+        $container->add(DemoWorker::class, new DemoWorker('demo'));
+        $container->add(DemoSignalListener::class, new DemoSignalListener());
+    }
+
+    private function registerDemoListener(Container $container): void
+    {
+        if (!$container->has('event') || !$container->has('logger') || !interface_exists(LoggerInterface::class)) {
+            return;
+        }
+
+        if (!$container->has(LoggerInterface::class)) {
+            $container->add(LoggerInterface::class, $container->get('logger'));
+        }
+
+        $container->get('event')->addListener($container->make(DemoEventListener::class));
     }
 
     private function registerCoreProviders(Container $container): void
