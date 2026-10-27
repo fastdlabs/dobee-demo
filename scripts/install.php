@@ -12,9 +12,12 @@ $project = getcwd() ?: dirname(__DIR__, 4);
 $configDir = $project . '/config';
 
 /**
+ * 读取并校验配置，然后只替换 marker 区块，最后原子写回。
+ *
+ * @param callable(array): bool|null $validate
  * @return bool true when changed
  */
-$replaceBlock = static function (string $file, string $name, string $block): bool {
+$replaceBlock = static function (string $file, string $name, string $block, ?callable $validate = null): bool {
     if (!is_file($file)) {
         fwrite(STDERR, "skip: {$file} not found\n");
         return false;
@@ -28,13 +31,50 @@ $replaceBlock = static function (string $file, string $name, string $block): boo
         return false;
     }
 
+    // 先执行一次用户配置，确认它返回合法数组且结构可用。
+    $bufferLevel = ob_get_level();
+    ob_start();
+
+    try {
+        $config = include $file;
+    } catch (Throwable $throwable) {
+        ob_end_clean();
+        fwrite(STDERR, "skip: failed to load {$file}: {$throwable->getMessage()}\n");
+        return false;
+    }
+
+    while (ob_get_level() > $bufferLevel) {
+        ob_end_clean();
+    }
+
+    if (!is_array($config) || ($validate !== null && !$validate($config))) {
+        fwrite(STDERR, "skip: invalid config structure in {$file}\n");
+        return false;
+    }
+
     $updated = preg_replace($pattern, '$1' . $block . "\n" . '$3', $content, 1);
 
     if (!is_string($updated) || $updated === $content) {
         return false;
     }
 
-    file_put_contents($file, $updated);
+    // 原子写回，避免写入中断损坏用户配置。
+    $temporary = $file . '.tmp.' . bin2hex(random_bytes(6));
+    if (file_put_contents($temporary, $updated) === false) {
+        fwrite(STDERR, "skip: cannot write temporary config for {$file}\n");
+        return false;
+    }
+
+    $permissions = fileperms($file);
+    if ($permissions !== false) {
+        @chmod($temporary, $permissions & 0777);
+    }
+
+    if (!@rename($temporary, $file)) {
+        @unlink($temporary);
+        fwrite(STDERR, "skip: cannot replace {$file}\n");
+        return false;
+    }
 
     return true;
 };
@@ -60,10 +100,20 @@ if (class_exists(\FastD\Demo\Listener\Server\DemoServerListener::class)) {
 }
 PHP;
 
-if ($replaceBlock($configDir . '/service.php', 'service', $serviceBlock)) {
+if ($replaceBlock(
+    $configDir . '/service.php',
+    'service',
+    $serviceBlock,
+    static fn (array $config): bool => is_array($config)
+)) {
     fwrite(STDOUT, "updated config/service.php demo block\n");
 }
 
-if ($replaceBlock($configDir . '/swoole.php', 'swoole', $swooleBlock)) {
+if ($replaceBlock(
+    $configDir . '/swoole.php',
+    'swoole',
+    $swooleBlock,
+    static fn (array $config): bool => isset($config['servers']) && is_array($config['servers'])
+)) {
     fwrite(STDOUT, "updated config/swoole.php demo block\n");
 }
