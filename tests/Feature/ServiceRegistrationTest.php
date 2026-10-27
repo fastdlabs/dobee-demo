@@ -12,22 +12,21 @@ use Symfony\Component\Console\Tester\CommandTester;
 
 class ServiceRegistrationTest extends TestCase
 {
-    public function testCommandWorkerAndListenerAreRegistered(): void
+    public function testCommandAndProcessAreAddedToConfig(): void
     {
-        $commands = container()->get('commands')->all();
-        $processes = container()->get('processes');
+        $commands = container()->config('command');
+        $process = container()->config('process');
 
         $this->assertContains(DemoCommand::class, $commands);
-        $this->assertArrayHasKey('demo', $processes->workers());
-        $this->assertContains($processes->workers()['demo'], [container()->get(DemoWorker::class)]);
-        $this->assertContains(container()->get(DemoSignalListener::class), $processes->listeners());
+        $this->assertSame(DemoWorker::class, $process['worker']['demo'] ?? null);
+        $this->assertContains(DemoSignalListener::class, $process['listener']);
     }
 
-    public function testCommandIsConstructedFromContainer(): void
+    public function testCommandStillRunsViaNewInstance(): void
     {
-        $tester = new CommandTester(container()->get(DemoCommand::class));
+        $tester = new CommandTester(new DemoCommand());
         $tester->execute([]);
 
-        $this->assertStringContainsString('Hello FastD from constructor injection', $tester->getDisplay());
+        $this->assertStringContainsString('Hello from fastd/dobee-demo command', $tester->getDisplay());
     }
 }

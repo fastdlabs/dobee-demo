@@ -18,4 +18,6 @@ return [
     'cache' => __DIR__ . '/cache.php',
     'database' => __DIR__ . '/database.php',
     'session' => __DIR__ . '/session.php',
+    'command' => __DIR__ . '/command.php',
+    'process' => __DIR__ . '/process.php',
 ];

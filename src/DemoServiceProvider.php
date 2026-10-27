@@ -6,6 +6,7 @@ namespace FastD\Demo;
 
 use FastD\Cache\ServiceProvider\CacheServiceProvider;
 use FastD\Container\Container;
+use FastD\Config\FileParser;
 use FastD\Container\ServiceProviderInterface;
 use FastD\Demo\Command\DemoCommand;
 use FastD\Demo\Listener\App\DemoEventListener;
@@ -37,22 +38,32 @@ final class DemoServiceProvider implements ServiceProviderInterface
      */
     private function registerDemoServices(Container $container): void
     {
-        $greeting = new InjectionDemoGreeting('Hello FastD');
-        $container->add(InjectionDemoGreeting::class, $greeting);
-        $container->add(DemoCommand::class, new DemoCommand($greeting));
-        $container->add(DemoWorker::class, new DemoWorker($greeting));
-        $container->add(DemoSignalListener::class, new DemoSignalListener());
+        $container->add(InjectionDemoGreeting::class, new InjectionDemoGreeting('Hello FastD'));
 
-        // 命令 / 进程注册：宿主不需要再在 command.php、process.php 中列类名。
-        if ($container->has('commands')) {
-            $container->get('commands')->add(DemoCommand::class);
+        // 命令 / 进程注册：注册时写入配置，宿主不需要修改 command.php / process.php。
+        $this->registerTerminalConfig($container);
+    }
+
+    private function registerTerminalConfig(Container $container): void
+    {
+        if (!$container->has('config')) {
+            return;
         }
 
-        if ($container->has('processes')) {
-            $processes = $container->get('processes');
-            $processes->addWorker($container->get(DemoWorker::class));
-            $processes->addListener($container->get(DemoSignalListener::class));
+        $config = $container->get('config');
+
+        if (!$config instanceof FileParser) {
+            return;
         }
+
+        $commands = (array) $config->parsed->get('command', []);
+        $commands[] = DemoCommand::class;
+        $config->parsed->set('command', array_values(array_unique($commands)));
+
+        $process = (array) $config->parsed->get('process', []);
+        $process['worker']['demo'] = DemoWorker::class;
+        $process['listener'][] = DemoSignalListener::class;
+        $config->parsed->set('process', $process);
     }
 
     private function registerDemoListener(Container $container): void
