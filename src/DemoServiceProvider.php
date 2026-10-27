@@ -25,6 +25,27 @@ final class DemoServiceProvider implements ServiceProviderInterface
         $container->add(InjectionDemoGreeting::class, new InjectionDemoGreeting('Hello FastD'));
 
         $this->registerSessionMiddleware($container);
+        $this->registerRoutes($container);
+    }
+
+    /**
+     * Demo 路由随 Provider 自动注册，宿主无需再修改 routes/web.php。
+     */
+    private function registerRoutes(Container $container): void
+    {
+        if (!$container->has('matcher')) {
+            return;
+        }
+
+        $matcher = $container->get('matcher');
+
+        if (!property_exists($matcher, 'routeCollection')) {
+            return;
+        }
+
+        foreach (Routes::all() as $route) {
+            $matcher->routeCollection->addRoute(...$route);
+        }
     }
 
     private function registerSessionMiddleware(Container $container): void

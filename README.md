@@ -26,13 +26,7 @@ if (class_exists(\FastD\Demo\DemoServiceProvider::class)) {
 }
 ```
 
-在 `routes/web.php` 中条件合并：
-
-```php
-if (class_exists(\FastD\Demo\Routes::class)) {
-    $routes = array_merge($routes, \FastD\Demo\Routes::all());
-}
-```
+路由由 `DemoServiceProvider` 自动注册，宿主不需要修改 `routes/web.php`。
 
 ## 路由
 
