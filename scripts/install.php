@@ -53,16 +53,16 @@ if (is_file($swooleFile)) {
     if (preg_match($pattern, $content) === 1) {
         $block = <<<'SWOOLE'
 if (class_exists(\FastD\Demo\Listener\Server\DemoServerListener::class)) {
-    $demoListens = [
-        [
+    $demoServers = [
+        'stats' => [
             'host' => '127.0.0.1',
             'port' => 9528,
-            'worker' => \FastD\Swoole\Listener\Server\StatsListener::class,
+            'handler' => \FastD\Swoole\Listener\Server\StatsListener::class,
         ],
-        [
+        'demo' => [
             'host' => '127.0.0.1',
             'port' => 9529,
-            'worker' => \FastD\Demo\Listener\Server\DemoServerListener::class,
+            'handler' => \FastD\Demo\Listener\Server\DemoServerListener::class,
         ],
     ];
 }
