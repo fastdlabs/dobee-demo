@@ -37,10 +37,22 @@ final class DemoServiceProvider implements ServiceProviderInterface
      */
     private function registerDemoServices(Container $container): void
     {
-        $container->add(InjectionDemoGreeting::class, new InjectionDemoGreeting('Hello FastD'));
-        $container->add(DemoCommand::class, new DemoCommand());
-        $container->add(DemoWorker::class, new DemoWorker('demo'));
+        $greeting = new InjectionDemoGreeting('Hello FastD');
+        $container->add(InjectionDemoGreeting::class, $greeting);
+        $container->add(DemoCommand::class, new DemoCommand($greeting));
+        $container->add(DemoWorker::class, new DemoWorker($greeting));
         $container->add(DemoSignalListener::class, new DemoSignalListener());
+
+        // 命令 / 进程注册：宿主不需要再在 command.php、process.php 中列类名。
+        if ($container->has('commands')) {
+            $container->get('commands')->add(DemoCommand::class);
+        }
+
+        if ($container->has('processes')) {
+            $processes = $container->get('processes');
+            $processes->addWorker($container->get(DemoWorker::class));
+            $processes->addListener($container->get(DemoSignalListener::class));
+        }
     }
 
     private function registerDemoListener(Container $container): void

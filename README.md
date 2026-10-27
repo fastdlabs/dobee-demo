@@ -51,5 +51,6 @@ if (class_exists(\FastD\Demo\DemoServiceProvider::class)) {
 
 ```bash
 php bin/console demo:hello
+# Hello from fastd/dobee-demo command: Hello FastD from constructor injection
 php bin/process
 ```
