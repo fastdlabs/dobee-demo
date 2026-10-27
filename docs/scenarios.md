@@ -2,15 +2,37 @@
 
 本文档覆盖 `fastd/dobee-demo` 当前注册的场景、页面和调用方式。
 
+## 首页预览
+
+建议通过 CGI 访问首页：
+
+```text
+http://127.0.0.1:8099/demo/index.html
+```
+
+- 点击左侧 Demo 在中间 iframe 展示，不跳转
+- HTML 页面使用当前 URL 的 CGI 域名
+- 右侧切换 API 目标：
+  - CGI：当前 URL 域名
+  - Swoole：`config/swoole.php` 的 http host/port
+
 ## 启动
 
-在宿主 dobee 应用根目录：
+### Swoole
 
 ```bash
 php bin/server start
 ```
 
-默认 HTTP 端口为 `9527`，以下示例均以 `http://127.0.0.1:9527` 为前缀。
+默认 HTTP 端口为 `9527`，API 示例前缀为 `http://127.0.0.1:9527`。
+
+### CGI
+
+```bash
+php -S 127.0.0.1:8099 -t web
+```
+
+CGI API 示例前缀为 `http://127.0.0.1:8099`。
 
 ## 路由清单
 
@@ -40,6 +62,8 @@ php bin/server start
 ## HTTP 基础
 
 ### 请求信息
+
+每个 Demo 页面右下角会显示页面域名、实际 API 域名和最近请求；请求页还会显示完整的实际请求 URL、method、headers、body 和响应。
 
 ```bash
 curl -X POST 'http://127.0.0.1:9527/request-demo?hello=world' \
