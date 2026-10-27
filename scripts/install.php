@@ -47,31 +47,64 @@ if (is_file($serviceFile)) {
 
 $swooleFile = $project . '/config/swoole.php';
 if (is_file($swooleFile)) {
-    $content = (string) file_get_contents($swooleFile);
-    $pattern = '/(\/\/ demo:swoole:start\n)(.*?)(\/\/ demo:swoole:end)/s';
+    $config = include $swooleFile;
 
-    if (preg_match($pattern, $content) === 1) {
-        $block = <<<'SWOOLE'
-if (class_exists(\FastD\Demo\Listener\Server\DemoServerListener::class)) {
-    $demoServers = [
-        'stats' => [
-            'host' => '127.0.0.1',
-            'port' => 9528,
-            'handler' => \FastD\Swoole\Listener\Server\StatsListener::class,
-        ],
-        'demo' => [
-            'host' => '127.0.0.1',
-            'port' => 9529,
-            'handler' => \FastD\Demo\Listener\Server\DemoServerListener::class,
-        ],
-    ];
-}
-SWOOLE;
+    if (is_array($config)) {
+        $servers = (array) ($config['servers'] ?? []);
+        unset($servers['stats'], $servers['demo']);
 
-        $updated = preg_replace($pattern, '$1' . $block . "\n" . '$3', $content, 1);
-        if (is_string($updated) && $updated !== $content) {
-            file_put_contents($swooleFile, $updated);
-            fwrite(STDOUT, "added demo listeners to config/swoole.php\n");
+        $export = static function (mixed $value, int $level = 0) use (&$export): string {
+            if (is_array($value)) {
+                if ($value === []) {
+                    return '[]';
+                }
+
+                $isList = array_is_list($value);
+                $indent = str_repeat('    ', $level);
+                $childIndent = str_repeat('    ', $level + 1);
+                $lines = ['['];
+
+                foreach ($value as $key => $item) {
+                    $prefix = $isList ? '' : var_export($key, true) . ' => ';
+                    $lines[] = $childIndent . $prefix . $export($item, $level + 1) . ',';
+                }
+
+                $lines[] = $indent . ']';
+
+                return implode("\n", $lines);
+            }
+
+            if (is_string($value) && str_contains($value, '\\')) {
+                return '\\' . $value . '::class';
+            }
+
+            return var_export($value, true);
+        };
+
+        $content = "<?php\n\n";
+        $content .= "// 由 fastd/dobee-demo 安装脚本自动维护。\n";
+        $content .= '$servers = ' . $export($servers) . ";\n\n";
+        $content .= "if (class_exists(\\FastD\\Demo\\Listener\\Server\\DemoServerListener::class)) {\n";
+        $content .= "    \$servers['stats'] = [\n";
+        $content .= "        'host' => '127.0.0.1',\n";
+        $content .= "        'port' => 9528,\n";
+        $content .= "        'handler' => \\FastD\\Swoole\\Listener\\Server\\StatsListener::class,\n";
+        $content .= "    ];\n";
+        $content .= "    \$servers['demo'] = [\n";
+        $content .= "        'host' => '127.0.0.1',\n";
+        $content .= "        'port' => 9529,\n";
+        $content .= "        'handler' => \\FastD\\Demo\\Listener\\Server\\DemoServerListener::class,\n";
+        $content .= "    ];\n";
+        $content .= "}\n\n";
+        $content .= "return [\n";
+        $content .= "    'servers' => \$servers,\n";
+        $content .= "    'events' => " . $export((array) ($config['events'] ?? []), 1) . ",\n";
+        $content .= "    'options' => " . $export((array) ($config['options'] ?? []), 1) . ",\n";
+        $content .= "];\n";
+
+        if ($content !== (string) file_get_contents($swooleFile)) {
+            file_put_contents($swooleFile, $content);
+            fwrite(STDOUT, "synced demo listeners to config/swoole.php\n");
         }
     }
 }
