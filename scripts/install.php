@@ -31,12 +31,14 @@ if (is_file($serviceFile)) {
             '// 服务提供者配置。',
             '//',
             '// 由 fastd/dobee-demo 的安装脚本自动维护。',
-            'return [',
+            '$services = [',
         ];
         foreach ($services as $service) {
             $lines[] = '    ' . ($service === $provider ? $providerConstant : var_export($service, true)) . ',';
         }
         $lines[] = '];';
+        $lines[] = '';
+        $lines[] = 'return array_values(array_filter($services, static fn (mixed $service): bool => class_exists($service)));';
 
         file_put_contents($serviceFile, implode(PHP_EOL, $lines) . PHP_EOL);
         fwrite(STDOUT, "added {$provider} to config/service.php\n");
@@ -50,18 +52,20 @@ if (is_file($swooleFile)) {
 
     if (preg_match($pattern, $content) === 1) {
         $block = <<<'SWOOLE'
-$demoListens = [
-    [
-        'host' => '127.0.0.1',
-        'port' => 9528,
-        'worker' => \FastD\Swoole\Listener\Server\StatsListener::class,
-    ],
-    [
-        'host' => '127.0.0.1',
-        'port' => 9529,
-        'worker' => \FastD\Demo\Listener\Server\DemoServerListener::class,
-    ],
-];
+if (class_exists(\FastD\Demo\Listener\Server\DemoServerListener::class)) {
+    $demoListens = [
+        [
+            'host' => '127.0.0.1',
+            'port' => 9528,
+            'worker' => \FastD\Swoole\Listener\Server\StatsListener::class,
+        ],
+        [
+            'host' => '127.0.0.1',
+            'port' => 9529,
+            'worker' => \FastD\Demo\Listener\Server\DemoServerListener::class,
+        ],
+    ];
+}
 SWOOLE;
 
         $updated = preg_replace($pattern, '$1' . $block . "\n" . '$3', $content, 1);
