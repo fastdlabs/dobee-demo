@@ -1,6 +1,6 @@
 {
     "name": "fastd/dobee-demo",
-    "description": "Demo application package for FastD dobee skeleton",
+    "description": "Demo application package for the FastD dobee skeleton.",
     "type": "library",
     "license": "MIT",
     "keywords": [
@@ -30,7 +30,7 @@
         "swoole/ide-helper": "@dev"
     },
     "suggest": {
-        "ext-swoole": "Required for Swoole runtime demos (SSE and shared-memory sessions)",
+        "ext-swoole": "Swoole >= 6.0 is required by fastd/swoole for Swoole runtime demos (SSE and shared-memory sessions)",
         "ext-pdo_sqlite": "Required for the SQLite database demo"
     },
     "autoload": {

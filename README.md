@@ -1,5 +1,7 @@
 # fastd/dobee-demo
 
+[![CI](https://github.com/fastdlabs/dobee-demo/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/fastdlabs/dobee-demo/actions/workflows/ci.yml)
+
 FastD `dobee` 的官方 Demo 包，包含：
 
 - Session 示例
@@ -14,6 +16,12 @@ FastD `dobee` 的官方 Demo 包，包含：
 - 对应静态演示页面 `/demo/*.html`
 
 Dobee 骨架通过 `require-dev` 或手动安装引入本包；未安装时不会注册任何 demo 路由或中间件。
+
+## 环境要求
+
+- PHP >= 8.4.1
+- Swoole >= 6.0（`ext-swoole`）
+- `ext-json`、`ext-pdo`
 
 ## 安装
 
