@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="zh-CN">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>FastD Upload Demo</title></head>
+<body style="font-family:system-ui;background:#0f172a;color:#e5e7eb;padding:32px">
+<h1>文件上传演示</h1>
+<form id="form">
+  <input type="file" name="file" required>
+  <button type="submit">POST /upload-demo</button>
+</form>
+<pre id="out" style="background:#0b1220;padding:16px;border-radius:8px">-</pre>
+<p><a style="color:#38bdf8" href="/demo/index.html">返回 Demo 首页</a></p>
+<script>
+document.getElementById('form').addEventListener('submit',async (event)=>{
+  event.preventDefault();
+  const r=await fetch('/upload-demo',{method:'POST',body:new FormData(event.target)});
+  document.getElementById('out').textContent=JSON.stringify(await r.json(),null,2);
+});
+</script>
+</body>
+</html>
