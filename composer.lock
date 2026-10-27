@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0303f8877660a995ad4e161923f04002",
+    "content-hash": "a1767d948fff611f9b705bbcd4aeb5b0",
     "packages": [
         {
             "name": "catfan/medoo",
@@ -280,16 +280,16 @@
         },
         {
             "name": "fastd/fastd",
-            "version": "v8.1.7",
+            "version": "v8.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fastdlabs/fastD.git",
-                "reference": "3c240d41ffb09774b881e82d10b14e065a39b18b"
+                "reference": "12968ebc6b2a6f7b98118222d35cf4f7c1ba2d01"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fastdlabs/fastD/zipball/3c240d41ffb09774b881e82d10b14e065a39b18b",
-                "reference": "3c240d41ffb09774b881e82d10b14e065a39b18b",
+                "url": "https://api.github.com/repos/fastdlabs/fastD/zipball/12968ebc6b2a6f7b98118222d35cf4f7c1ba2d01",
+                "reference": "12968ebc6b2a6f7b98118222d35cf4f7c1ba2d01",
                 "shasum": ""
             },
             "require": {
@@ -344,7 +344,7 @@
                     "email": "longxinhui@php.net"
                 }
             ],
-            "description": "A High Performance API Framework By Swoole Extension",
+            "description": "High-performance PHP API framework based on PSR standards and Swoole.",
             "homepage": "https://fastdlabs.com/",
             "keywords": [
                 "FastD",
@@ -357,9 +357,9 @@
             ],
             "support": {
                 "issues": "https://github.com/fastdlabs/fastD/issues",
-                "source": "https://github.com/fastdlabs/fastD/tree/v8.1.7"
+                "source": "https://github.com/fastdlabs/fastD/tree/v8.2.0"
             },
-            "time": "2026-10-27T04:30:50+00:00"
+            "time": "2026-10-27T07:47:44+00:00"
         },
         {
             "name": "fastd/http",
