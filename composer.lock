@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a1767d948fff611f9b705bbcd4aeb5b0",
+    "content-hash": "62a8bc52db10000f3519020489883b3d",
     "packages": [
         {
             "name": "catfan/medoo",
@@ -4329,7 +4329,7 @@
         },
         {
             "name": "swoole/ide-helper",
-            "version": "dev-master",
+            "version": "6.2.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/swoole/ide-helper.git",
@@ -4341,7 +4341,6 @@
                 "reference": "7dc4e1d9f532ddab5a78643eb8f0b7990293793b",
                 "shasum": ""
             },
-            "default-branch": true,
             "type": "library",
             "notification-url": "https://packagist.org/downloads/",
             "license": [
@@ -4356,7 +4355,7 @@
             "description": "IDE help files for Swoole.",
             "support": {
                 "issues": "https://github.com/swoole/ide-helper/issues",
-                "source": "https://github.com/swoole/ide-helper/tree/master"
+                "source": "https://github.com/swoole/ide-helper/tree/6.2.4"
             },
             "time": "2026-10-26T02:02:40+00:00"
         },
@@ -4413,9 +4412,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "swoole/ide-helper": 20
-    },
+    "stability-flags": {},
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
