@@ -3,108 +3,60 @@
 declare(strict_types=1);
 
 /**
- * 自动同步 Demo 所需配置：
- * - config/service.php：写入 DemoServiceProvider
- * - config/swoole.php：写入 Demo 专用监听端口
+ * 生成 Demo 专用配置，不修改用户已有的 service.php / swoole.php。
  *
- * 由宿主 Composer 的 post-install-cmd / post-update-cmd 调用。
+ * 生成文件：
+ * - config/service-demo.php
+ * - config/swoole-demo.php
  */
 
 $project = getcwd() ?: dirname(__DIR__, 4);
 
-$provider = 'FastD\\Demo\\DemoServiceProvider';
-$providerConstant = '\\FastD\\Demo\\DemoServiceProvider::class';
-
-$serviceFile = $project . '/config/service.php';
-if (is_file($serviceFile)) {
-    $services = include $serviceFile;
-
-    if (is_array($services)
-        && !in_array($provider, $services, true)
-        && !in_array($providerConstant, $services, true)
-    ) {
-        $services[] = $provider;
-
-        $lines = [
-            '<?php',
-            '',
-            '// 服务提供者配置。',
-            '//',
-            '// 由 fastd/dobee-demo 的安装脚本自动维护。',
-            '$services = [',
-        ];
-        foreach ($services as $service) {
-            $lines[] = '    ' . ($service === $provider ? $providerConstant : var_export($service, true)) . ',';
-        }
-        $lines[] = '];';
-        $lines[] = '';
-        $lines[] = 'return array_values(array_filter($services, static fn (mixed $service): bool => class_exists($service)));';
-
-        file_put_contents($serviceFile, implode(PHP_EOL, $lines) . PHP_EOL);
-        fwrite(STDOUT, "added {$provider} to config/service.php\n");
-    }
+$configDir = $project . '/config';
+if (!is_dir($configDir)) {
+    fwrite(STDERR, "skip: config directory not found in {$project}\n");
+    exit(0);
 }
 
-$swooleFile = $project . '/config/swoole.php';
-if (is_file($swooleFile)) {
-    $config = include $swooleFile;
+$serviceDemo = $configDir . '/service-demo.php';
+$serviceContent = <<<'PHP'
+<?php
 
-    if (is_array($config)) {
-        $servers = (array) ($config['servers'] ?? []);
-        unset($servers['stats'], $servers['demo']);
+// 由 fastd/dobee-demo 安装脚本生成，请勿手动修改。
+return [
+    \FastD\Demo\DemoServiceProvider::class,
+];
+PHP;
 
-        $export = static function (mixed $value, int $level = 0) use (&$export): string {
-            if (is_array($value)) {
-                if ($value === []) {
-                    return '[]';
-                }
+if (@file_get_contents($serviceDemo) !== $serviceContent . PHP_EOL) {
+    file_put_contents($serviceDemo, $serviceContent . PHP_EOL);
+    fwrite(STDOUT, "generated config/service-demo.php\n");
+}
 
-                $isList = array_is_list($value);
-                $indent = str_repeat('    ', $level);
-                $childIndent = str_repeat('    ', $level + 1);
-                $lines = ['['];
+$swooleDemo = $configDir . '/swoole-demo.php';
+$swooleContent = <<<'PHP'
+<?php
 
-                foreach ($value as $key => $item) {
-                    $prefix = $isList ? '' : var_export($key, true) . ' => ';
-                    $lines[] = $childIndent . $prefix . $export($item, $level + 1) . ',';
-                }
+// 由 fastd/dobee-demo 安装脚本生成，请勿手动修改。
+if (!class_exists(\FastD\Demo\Listener\Server\DemoServerListener::class)) {
+    return [];
+}
 
-                $lines[] = $indent . ']';
+return [
+    'stats' => [
+        'host' => '127.0.0.1',
+        'port' => 9528,
+        'listener' => \FastD\Swoole\Listener\Server\StatsListener::class,
+    ],
+    'demo' => [
+        'host' => '127.0.0.1',
+        'port' => 9529,
+        'listener' => \FastD\Demo\Listener\Server\DemoServerListener::class,
+    ],
+];
+PHP;
 
-                return implode("\n", $lines);
-            }
-
-            if (is_string($value) && str_contains($value, '\\')) {
-                return '\\' . $value . '::class';
-            }
-
-            return var_export($value, true);
-        };
-
-        $content = "<?php\n\n";
-        $content .= "// 由 fastd/dobee-demo 安装脚本自动维护。\n";
-        $content .= '$servers = ' . $export($servers) . ";\n\n";
-        $content .= "if (class_exists(\\FastD\\Demo\\Listener\\Server\\DemoServerListener::class)) {\n";
-        $content .= "    \$servers['stats'] = [\n";
-        $content .= "        'host' => '127.0.0.1',\n";
-        $content .= "        'port' => 9528,\n";
-        $content .= "        'listener' => \\FastD\\Swoole\\Listener\\Server\\StatsListener::class,\n";
-        $content .= "    ];\n";
-        $content .= "    \$servers['demo'] = [\n";
-        $content .= "        'host' => '127.0.0.1',\n";
-        $content .= "        'port' => 9529,\n";
-        $content .= "        'listener' => \\FastD\\Demo\\Listener\\Server\\DemoServerListener::class,\n";
-        $content .= "    ];\n";
-        $content .= "}\n\n";
-        $content .= "return [\n";
-        $content .= "    'servers' => \$servers,\n";
-        $content .= "    'listeners' => " . $export((array) ($config['listeners'] ?? []), 1) . ",\n";
-        $content .= "    'options' => " . $export((array) ($config['options'] ?? []), 1) . ",\n";
-        $content .= "];\n";
-
-        if ($content !== (string) file_get_contents($swooleFile)) {
-            file_put_contents($swooleFile, $content);
-            fwrite(STDOUT, "synced demo listeners to config/swoole.php\n");
-        }
-    }
+if (@file_get_contents($swooleDemo) !== $swooleContent . PHP_EOL) {
+    file_put_contents($swooleDemo, $swooleContent . PHP_EOL);
+    fwrite(STDOUT, "generated config/swoole-demo.php\n");
 }
