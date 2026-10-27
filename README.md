@@ -6,6 +6,11 @@ FastD `dobee` 的官方 Demo 包，包含：
 - SSE / AI Mock Stream 示例
 - RequestId Middleware 示例
 - 构造器注入 / Resolver 示例
+- Cache（file adapter）示例
+- Database（SQLite / MedooDB）示例
+- Swoole Server / 自定义 Listener 示例
+- Console Command 示例
+- Process / Signal 示例
 - 对应静态演示页面 `/demo/*.html`
 
 Dobee 骨架通过 `require-dev` 或手动安装引入本包；未安装时不会注册任何 demo 路由或中间件。
@@ -37,4 +42,14 @@ if (class_exists(\FastD\Demo\DemoServiceProvider::class)) {
 | `/middleware-demo` | RequestIdMiddleware |
 | `/sse` | SSE 流式推送 |
 | `/ai/mock-stream` | 模拟 AI SSE 输出 |
+| `/cache-demo` | 缓存读写与命中计数 |
+| `/db-demo` | SQLite 写入与访问计数 |
+| `/swoole-demo` | Swoole/CGI 运行时信息 |
 | `/demo/index.html` | Demo 入口页 |
+
+命令行与进程示例：
+
+```bash
+php bin/console demo:hello
+php bin/process
+```

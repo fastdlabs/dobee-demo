@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace FastD\Demo;
 
 use FastD\Demo\Controller\AiMockStreamController;
+use FastD\Demo\Controller\CacheDemoController;
+use FastD\Demo\Controller\DatabaseDemoController;
+use FastD\Demo\Controller\SwooleDemoController;
 use FastD\Demo\Controller\InjectionDemoController;
 use FastD\Demo\Controller\MiddlewareDemoController;
 use FastD\Demo\Controller\PageController;
@@ -29,6 +32,9 @@ final class Routes
             ['GET', '/middleware-demo', MiddlewareDemoController::class, [RequestIdMiddleware::class]],
             ['GET', '/sse', SseStreamController::class],
             ['POST', '/ai/mock-stream', AiMockStreamController::class],
+            ['GET', '/cache-demo', CacheDemoController::class],
+            ['GET', '/db-demo', DatabaseDemoController::class],
+            ['GET', '/swoole-demo', SwooleDemoController::class],
             ['GET', '/demo/{page}', PageController::class],
         ];
     }

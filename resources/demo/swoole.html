@@ -1,0 +1,13 @@
+<!doctype html>
+<html lang="zh-CN">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>FastD Swoole Demo</title></head>
+<body style="font-family:system-ui;background:#0f172a;color:#e5e7eb;padding:32px">
+<h1>Swoole Demo</h1>
+<p>查看运行时信息；Swoole 模式启动后由 Swoole HTTP Server 提供服务。</p>
+<button onclick="run()">请求 /swoole-demo</button>
+<pre id="out" style="background:#0b1220;padding:16px;border-radius:8px">-</pre>
+<p>独立 Swoole Listener：<code>http://127.0.0.1:9529/</code>（安装扩展且使用 Swoole 时）</p>
+<p><a style="color:#38bdf8" href="/demo/index.html">返回 Demo 首页</a></p>
+<script>async function run(){const r=await fetch('/swoole-demo');document.getElementById('out').textContent=JSON.stringify(await r.json(),null,2);}</script>
+</body>
+</html>

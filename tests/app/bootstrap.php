@@ -15,4 +15,7 @@ return [
     'route' => __DIR__ . '/routes.php',
     'service' => __DIR__ . '/service.php',
     'listener' => __DIR__ . '/listeners.php',
+    'cache' => __DIR__ . '/cache.php',
+    'database' => __DIR__ . '/database.php',
+    'session' => __DIR__ . '/session.php',
 ];

@@ -1,0 +1,12 @@
+<!doctype html>
+<html lang="zh-CN">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>FastD Database Demo</title></head>
+<body style="font-family:system-ui;background:#0f172a;color:#e5e7eb;padding:32px">
+<h1>Database Demo</h1>
+<p>使用 fastd/medoodb + SQLite 写入并统计访问次数。</p>
+<button onclick="run()">请求 /db-demo</button>
+<pre id="out" style="background:#0b1220;padding:16px;border-radius:8px">-</pre>
+<p><a style="color:#38bdf8" href="/demo/index.html">返回 Demo 首页</a></p>
+<script>async function run(){const r=await fetch('/db-demo');document.getElementById('out').textContent=JSON.stringify(await r.json(),null,2);}</script>
+</body>
+</html>

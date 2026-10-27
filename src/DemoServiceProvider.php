@@ -4,32 +4,45 @@ declare(strict_types=1);
 
 namespace FastD\Demo;
 
-use FastD\Application;
+use FastD\Cache\ServiceProvider\CacheServiceProvider;
 use FastD\Container\Container;
 use FastD\Container\ServiceProviderInterface;
 use FastD\Demo\Support\InjectionDemoGreeting;
-use FastD\Http\Session\Handler\NativeFileSessionHandler;
-use FastD\Http\Session\Handler\SwooleTableSessionHandler;
-use FastD\Http\Session\SessionMiddleware;
+use FastD\MedooDB\ServiceProvider\DatabaseServiceProvider;
+use FastD\ServiceProvider\SessionServiceProvider;
 
 /**
- * Demo 包入口：绑定 Demo 服务，并为 Session 示例注册独立会话中间件。
+ * Demo 包入口。
  *
- * 宿主应用只需在 config/service.php 中条件注册本 Provider，
- * 不安装 Demo 包时不会引入任何路由或中间件。
+ * 宿主只需要条件注册本 Provider；Demo 路由、Session/Cache/Database 服务
+ * 和构造器注入绑定都由这里统一装配。
  */
 final class DemoServiceProvider implements ServiceProviderInterface
 {
     public function register(Container $container): void
     {
+        $this->registerCoreProviders($container);
         $container->add(InjectionDemoGreeting::class, new InjectionDemoGreeting('Hello FastD'));
-
-        $this->registerSessionMiddleware($container);
         $this->registerRoutes($container);
     }
 
+    private function registerCoreProviders(Container $container): void
+    {
+        if (!$container->has('session.middleware') && class_exists(SessionServiceProvider::class)) {
+            (new SessionServiceProvider())->register($container);
+        }
+
+        if (!$container->has('cache') && class_exists(CacheServiceProvider::class)) {
+            (new CacheServiceProvider())->register($container);
+        }
+
+        if (!$container->has('medoodb') && class_exists(DatabaseServiceProvider::class)) {
+            (new DatabaseServiceProvider())->register($container);
+        }
+    }
+
     /**
-     * Demo 路由随 Provider 自动注册，宿主无需再修改 routes/web.php。
+     * Demo 路由随 Provider 自动注册，宿主无需修改 routes/web.php。
      */
     private function registerRoutes(Container $container): void
     {
@@ -46,43 +59,5 @@ final class DemoServiceProvider implements ServiceProviderInterface
         foreach (Routes::all() as $route) {
             $matcher->routeCollection->addRoute(...$route);
         }
-    }
-
-    private function registerSessionMiddleware(Container $container): void
-    {
-        if ($container->has('session.middleware')) {
-            return;
-        }
-
-        $runtime = method_exists($container, 'getRuntime') ? (string) $container->getRuntime() : 'cgi';
-        $root = $container instanceof Application ? $container->getRootPath() : getcwd();
-        $ttl = 1440;
-
-        $handler = 'swoole' === $runtime
-            ? new SwooleTableSessionHandler($ttl, 2048, 4096)
-            : new NativeFileSessionHandler($root . '/runtime/session', $ttl);
-
-        $container->add('session.handler', $handler);
-
-        $middleware = new SessionMiddleware(
-            $handler,
-            'FASTD_SESSID',
-            '/',
-            '',
-            false,
-            true,
-            'Lax',
-            function (string $message, object $session) use ($container): void {
-                if ($container->has('logger')) {
-                    $container->get('logger')->error($message, [
-                        'session_id' => method_exists($session, 'getId') ? $session->getId() : null,
-                    ]);
-                }
-            },
-            100,
-        );
-
-        $container->add('session.middleware', $middleware);
-        $container->get('matcher')->push($middleware);
     }
 }

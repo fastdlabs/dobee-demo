@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4e6b555c6f7638cfc8d6878e3c8143ec",
+    "content-hash": "58b8d640372f24a1a04b390be75cf731",
     "packages": [
         {
             "name": "catfan/medoo",
@@ -280,16 +280,16 @@
         },
         {
             "name": "fastd/fastd",
-            "version": "v8.1.5",
+            "version": "v8.1.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fastdlabs/fastD.git",
-                "reference": "040d64e5622219081f0ec52cd25d76b46dc8875d"
+                "reference": "02b3d9b0ab5b6afecc47deff698e0df8ed095c9d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fastdlabs/fastD/zipball/040d64e5622219081f0ec52cd25d76b46dc8875d",
-                "reference": "040d64e5622219081f0ec52cd25d76b46dc8875d",
+                "url": "https://api.github.com/repos/fastdlabs/fastD/zipball/02b3d9b0ab5b6afecc47deff698e0df8ed095c9d",
+                "reference": "02b3d9b0ab5b6afecc47deff698e0df8ed095c9d",
                 "shasum": ""
             },
             "require": {
@@ -357,9 +357,9 @@
             ],
             "support": {
                 "issues": "https://github.com/fastdlabs/fastD/issues",
-                "source": "https://github.com/fastdlabs/fastD/tree/v8.1.5"
+                "source": "https://github.com/fastdlabs/fastD/tree/v8.1.6"
             },
-            "time": "2026-10-27T03:38:48+00:00"
+            "time": "2026-10-27T03:47:11+00:00"
         },
         {
             "name": "fastd/http",
@@ -4420,7 +4420,8 @@
     "prefer-lowest": false,
     "platform": {
         "php": ">=8.4.1",
-        "ext-json": "*"
+        "ext-json": "*",
+        "ext-pdo": "*"
     },
     "platform-dev": {},
     "plugin-api-version": "2.9.0"
