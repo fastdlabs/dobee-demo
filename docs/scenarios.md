@@ -63,7 +63,7 @@ CGI API 示例前缀为 `http://127.0.0.1:8099`。
 
 ### 请求信息
 
-请求页会同时显示实际请求 URL、method、headers、body 和响应，便于区分当前 API 目标。
+每个 Demo 页面右下角会显示页面域名、实际 API 域名和最近请求；请求页还会显示完整的实际请求 URL、method、headers、body 和响应。
 
 ```bash
 curl -X POST 'http://127.0.0.1:9527/request-demo?hello=world' \

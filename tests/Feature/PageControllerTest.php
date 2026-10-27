@@ -45,5 +45,7 @@ class PageControllerTest extends TestCase
         $this->assertSame(200, $response->getStatusCode());
         $this->assertStringContainsString('application/javascript', $response->getHeaderLine('Content-Type'));
         $this->assertStringContainsString('fastd.demo.runtime', (string) $response->getBody());
+        $this->assertStringContainsString('demo-runtime-info', (string) $response->getBody());
+        $this->assertStringContainsString('最近请求', (string) $response->getBody());
     }
 }
