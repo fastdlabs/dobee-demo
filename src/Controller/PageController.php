@@ -31,8 +31,7 @@ final class PageController implements MiddlewareInterface
             return new Text(404, 'Demo page not found');
         }
 
-        return new Text(200, (string) file_get_contents($file), [
-            'Content-Type' => 'text/html; charset=UTF-8',
-        ]);
+        return (new Text(200, (string) file_get_contents($file)))
+            ->withHeader('Content-Type', 'text/html; charset=UTF-8');
     }
 }
