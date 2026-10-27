@@ -11,6 +11,7 @@ use FastD\Demo\Controller\SwooleDemoController;
 use FastD\Demo\Controller\InjectionDemoController;
 use FastD\Demo\Controller\MiddlewareDemoController;
 use FastD\Demo\Controller\PageController;
+use FastD\Demo\Controller\ParallelDemoController;
 use FastD\Demo\Controller\SessionController;
 use FastD\Demo\Controller\SseStreamController;
 use FastD\Demo\Middleware\InjectionDemoMiddleware;
@@ -35,6 +36,7 @@ final class Routes
             ['GET', '/cache-demo', CacheDemoController::class],
             ['GET', '/db-demo', DatabaseDemoController::class],
             ['GET', '/swoole-demo', SwooleDemoController::class],
+            ['GET', '/parallel-demo', ParallelDemoController::class],
             ['GET', '/demo/{page}', PageController::class],
         ];
     }
