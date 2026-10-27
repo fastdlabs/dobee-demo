@@ -4,13 +4,23 @@
 
 ## 启动
 
-在宿主 dobee 应用根目录：
+Demo 首页 `/demo/index.html` 右侧提供 CGI / Swoole 目标切换和启动说明。
+
+### Swoole
 
 ```bash
 php bin/server start
 ```
 
 默认 HTTP 端口为 `9527`，以下示例均以 `http://127.0.0.1:9527` 为前缀。
+
+### CGI / FastCGI
+
+```bash
+php -S 127.0.0.1:8099 -t web
+```
+
+CGI 示例前缀为 `http://127.0.0.1:8099`。
 
 ## 路由清单
 

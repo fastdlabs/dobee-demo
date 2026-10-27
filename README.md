@@ -44,6 +44,51 @@ if (class_exists(\FastD\Demo\DemoServiceProvider::class)) {
 
 路由由 `DemoServiceProvider` 自动注册，宿主不需要修改 `routes/web.php`。
 
+## 启动运行时
+
+Demo 支持两种运行方式，首页 `/demo/index.html` 右侧可以切换目标运行时并查看启动命令。
+
+### Swoole
+
+```bash
+php bin/server start
+```
+
+访问：
+
+```text
+http://127.0.0.1:9527/demo/index.html
+```
+
+停止：
+
+```bash
+php bin/server stop
+```
+
+### CGI / FastCGI
+
+```bash
+php -S 127.0.0.1:8099 -t web
+```
+
+访问：
+
+```text
+http://127.0.0.1:8099/demo/index.html
+```
+
+### 行为差异
+
+| 项目 | CGI | Swoole |
+|---|---|---|
+| 执行模型 | 请求级进程 | 常驻 Worker |
+| 协程上下文 | 无 | 有 |
+| `/parallel-demo` | 串行 | 并发 |
+| 启动方式 | `php -S ...` | `php bin/server start` |
+
+首页右侧的切换只改变 Demo 链接的目标端口，不会切换当前服务器；请先启动对应服务。
+
 ## 路由
 
 | 路由 | 说明 |
