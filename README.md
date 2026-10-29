@@ -20,6 +20,12 @@ FastD `dobee` 的官方 Demo 包，包含：
 
 Dobee 骨架通过 `require-dev` 或手动安装引入本包；未安装时不会注册任何 demo 路由或中间件。
 
+## 文档
+
+- [FastD 8.3 使用手册](https://fastdlabs.github.io/docs/#/zh-cn/8.3/readme)
+- [Demo 使用说明](https://fastdlabs.github.io/docs/#/zh-cn/8.3/guide/demo)
+- [Demo Scenarios](https://github.com/fastdlabs/dobee-demo/blob/master/docs/scenarios.md)
+
 ## 环境要求
 
 - PHP >= 8.4.1
