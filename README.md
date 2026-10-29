@@ -4,15 +4,15 @@
 
 FastD `dobee` 的官方 Demo 包，包含：
 
-- Session 示例
+- Session 示例（访问计数 / CSRF / 注销）
 - SSE / AI Mock Stream 示例
 - RequestId Middleware 示例
 - 构造器注入 / Resolver 示例
-- Cache（file adapter）/ Database（SQLite / MedooDB）示例
+- Cache（file adapter / set / get / delete）/ Database（SQLite / MedooDB）示例
 - 数据库事务示例
 - Swoole Server / 自定义 Listener 示例
 - Swoole 协程并发示例（`/parallel-demo`）
-- HTTP 请求 / Cookie / 上传 / 下载示例
+- HTTP 请求 / Cookie / 上传（大小与类型校验）/ 下载示例
 - 自定义事件 / 响应状态 / 异常处理示例
 - CORS / OPTIONS 示例
 - Console Command / Process / Signal 示例
@@ -150,17 +150,19 @@ php -S 127.0.0.1:8099 -t web
 | 路由 | 说明 |
 |---|---|
 | `/session` | Session 访问计数 |
+| `/session-security-demo` | CSRF 校验 / 注销 |
 | `/di-demo` | 构造器注入 Controller + Middleware |
 | `/middleware-demo` | RequestIdMiddleware |
 | `/sse` | SSE 流式推送 |
 | `/ai/mock-stream` | 模拟 AI SSE 输出 |
 | `/cache-demo` | 缓存读写与命中计数 |
+| `/cache-manage-demo` | 缓存 set / get / delete / miss |
 | `/db-demo` | SQLite 写入与访问计数 |
 | `/swoole-demo` | Swoole/CGI 运行时信息 |
 | `/parallel-demo` | Swoole 协程并发 / CGI 串行 |
 | `/request-demo` | 请求 query/header/cookie/body |
 | `/cookie-demo` | Cookie 读写 |
-| `/upload-demo` | 文件上传 |
+| `/upload-demo` | 文件上传（1MB 限制、类型白名单） |
 | `/download-demo` | 文件下载 / 流式响应 |
 | `/event-demo` | 自定义事件分发 |
 | `/response-demo` | 响应状态 / 重定向 |

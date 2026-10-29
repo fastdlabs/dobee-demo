@@ -16,7 +16,7 @@ use Throwable;
  */
 final class PageController implements MiddlewareInterface
 {
-    private const PAGES = ['index.html', 'sse.html', 'ai.html', 'di.html', 'middleware.html', 'cache.html', 'database.html', 'swoole.html', 'parallel.html', 'request.html', 'cookie.html', 'upload.html', 'event.html', 'response.html', 'error.html', 'process.html', 'config.html', 'http-client.html', 'redis-session.html', 'cors.html', 'download.html', 'db-transaction.html'];
+    private const PAGES = ['index.html', 'sse.html', 'ai.html', 'di.html', 'middleware.html', 'cache.html', 'database.html', 'swoole.html', 'parallel.html', 'request.html', 'cookie.html', 'upload.html', 'event.html', 'response.html', 'error.html', 'process.html', 'config.html', 'http-client.html', 'redis-session.html', 'cors.html', 'download.html', 'db-transaction.html', 'session-security.html', 'cache-manage.html'];
 
     private const ASSETS = ['runtime.js'];
 

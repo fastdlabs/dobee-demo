@@ -11,6 +11,7 @@ use FastD\Demo\Controller\SwooleDemoController;
 use FastD\Demo\Controller\UploadDemoController;
 use FastD\Demo\Controller\InjectionDemoController;
 use FastD\Demo\Controller\MiddlewareDemoController;
+use FastD\Demo\Controller\CacheManageController;
 use FastD\Demo\Controller\ConfigDemoController;
 use FastD\Demo\Controller\CorsDemoController;
 use FastD\Demo\Controller\DatabaseTransactionDemoController;
@@ -23,6 +24,7 @@ use FastD\Demo\Controller\ParallelDemoController;
 use FastD\Demo\Controller\RequestDemoController;
 use FastD\Demo\Controller\ResponseDemoController;
 use FastD\Demo\Controller\SessionController;
+use FastD\Demo\Controller\SessionSecurityController;
 use FastD\Demo\Controller\SseStreamController;
 use FastD\Demo\Middleware\CorsDemoMiddleware;
 use FastD\Demo\Middleware\ExceptionDemoMiddleware;
@@ -41,6 +43,8 @@ final class Routes
     {
         return [
             ['GET', '/session', SessionController::class],
+            ['GET', '/session-security-demo', SessionSecurityController::class],
+            ['POST', '/session-security-demo', SessionSecurityController::class],
             ['GET', '/request-demo', RequestDemoController::class],
             ['POST', '/request-demo', RequestDemoController::class],
             ['GET', '/cookie-demo', CookieDemoController::class],
@@ -58,6 +62,7 @@ final class Routes
             ['GET', '/sse', SseStreamController::class],
             ['POST', '/ai/mock-stream', AiMockStreamController::class],
             ['GET', '/cache-demo', CacheDemoController::class],
+            ['GET', '/cache-manage-demo', CacheManageController::class],
             ['GET', '/db-demo', DatabaseDemoController::class],
             ['GET', '/swoole-demo', SwooleDemoController::class],
             ['GET', '/parallel-demo', ParallelDemoController::class],

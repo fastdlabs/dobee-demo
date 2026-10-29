@@ -39,18 +39,20 @@ CGI API 示例前缀为 `http://127.0.0.1:8099`。
 | 方法 | 路由 | 页面 | 说明 |
 |---|---|---|---|
 | GET | `/session` | - | Session 访问计数、flash、CSRF token |
+| GET/POST | `/session-security-demo` | `session-security.html` | CSRF 校验与注销 |
 | GET | `/di-demo` | `di.html` | 构造器注入 Controller + Middleware |
 | GET | `/middleware-demo` | `middleware.html` | RequestId / 响应耗时 |
 | GET | `/sse` | `sse.html` | SSE 流式推送 |
 | POST | `/ai/mock-stream` | `ai.html` | 模拟 AI SSE 输出 |
 | GET | `/cache-demo` | `cache.html` | file cache 读写与命中 |
+| GET | `/cache-manage-demo` | `cache-manage.html` | 缓存 set/get/delete/miss |
 | GET | `/db-demo` | `database.html` | SQLite 写入与访问计数 |
 | GET | `/db-transaction-demo` | `db-transaction.html` | 事务回滚 |
 | GET | `/swoole-demo` | `swoole.html` | CGI / Swoole 运行时信息 |
 | GET | `/parallel-demo` | `parallel.html` | 运行时自适应的协程并发 |
 | GET/POST | `/request-demo` | `request.html` | query / header / cookie / body |
 | GET | `/cookie-demo` | `cookie.html` | Cookie 写入与读取 |
-| POST | `/upload-demo` | `upload.html` | multipart 文件上传 |
+| POST | `/upload-demo` | `upload.html` | multipart 上传（1MB、类型白名单） |
 | GET | `/download-demo` | `download.html` | 流式 CSV 下载 |
 | GET | `/event-demo` | `event.html` | 自定义 PSR-14 事件 |
 | GET | `/response-demo` | `response.html` | 200 / 201 / 302 |
@@ -86,6 +88,8 @@ curl -F 'file=@README.md' http://127.0.0.1:9527/upload-demo
 ```
 
 文件会保存到宿主的 `runtime/uploads`。
+
+限制：最大 1MB；允许 `text/plain`、`text/csv`、`image/png`、`image/jpeg`。
 
 ### 文件下载
 
@@ -199,6 +203,7 @@ demo-2
 request.html
 cookie.html
 upload.html
+session-security.html
 download.html
 event.html
 response.html

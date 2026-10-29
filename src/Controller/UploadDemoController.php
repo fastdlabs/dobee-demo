@@ -23,6 +23,15 @@ final class UploadDemoController implements MiddlewareInterface
             return json(['error' => 'file is required'], 400);
         }
 
+        if ((int) $file->getSize() > 1_048_576) {
+            return json(['error' => 'file exceeds 1MB limit'], 413);
+        }
+
+        $allowedTypes = ['text/plain', 'text/csv', 'image/png', 'image/jpeg'];
+        if (!in_array((string) $file->getClientMediaType(), $allowedTypes, true)) {
+            return json(['error' => 'unsupported media type'], 415);
+        }
+
         $clientName = basename((string) $file->getClientFilename());
         $targetName = bin2hex(random_bytes(8)) . '-' . $clientName;
         $target = dirname(__DIR__, 2) . '/runtime/uploads/' . $targetName;

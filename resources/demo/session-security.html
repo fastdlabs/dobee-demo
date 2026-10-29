@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="zh-CN">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>FastD Session Security Demo</title></head>
+<body style="font-family:system-ui;background:#0f172a;color:#e5e7eb;padding:32px">
+<h1>Session 安全</h1>
+<p>演示 CSRF token 校验和 session 注销。</p>
+<button onclick="info()">读取 Token</button>
+<button onclick="verify()">校验正确 Token</button>
+<button onclick="verifyBad()">校验错误 Token</button>
+<button onclick="logout()">注销 Session</button>
+<pre id="out" style="background:#0b1220;padding:16px;border-radius:8px">-</pre>
+<p><a style="color:#38bdf8" href="/demo/index.html">返回 Demo 首页</a></p>
+<script>
+let token = '';
+function show(data, status) {
+  document.getElementById('out').textContent = 'HTTP ' + status + '\n' + JSON.stringify(data, null, 2);
+}
+async function info() {
+  const r = await fetch('/session-security-demo');
+  const data = await r.json();
+  token = data.token;
+  show(data, r.status);
+}
+async function verify() {
+  const r = await fetch('/session-security-demo', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({action: 'verify', _token: token})
+  });
+  show(await r.json(), r.status);
+}
+async function verifyBad() {
+  const r = await fetch('/session-security-demo', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({action: 'verify', _token: token + '-invalid'})
+  });
+  show(await r.json(), r.status);
+}
+async function logout() {
+  const r = await fetch('/session-security-demo', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({action: 'logout'})
+  });
+  show(await r.json(), r.status);
+}
+</script>
+</body>
+</html>
